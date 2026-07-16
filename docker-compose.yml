@@ -1,0 +1,45 @@
+# Dragon Knight (Reforged) — deployment
+#
+# This whole folder is the git repo AND the container's home:
+#   /docker/containers/dragon-knight-reforged/
+#     ├── docker-compose.yml, Dockerfile, Django code, docs/   (tracked)
+#     └── data/                                                 (gitignored, runtime)
+#
+# Bind mounts are RELATIVE (./data/...), so this works no matter where the folder
+# lives — no absolute paths to keep in sync.
+#
+# Reuses your existing services (same networks as your Wiki.js container):
+#   - main_db  (mariadb:lts)          on `backend`  -> the app's database
+#   - gateway  (nginx-proxy-manager)  on `frontend` -> reverse-proxies here
+#
+# Secrets live in .env (gitignored), never inline here, since this file is committed.
+
+services:
+  dragon-knight-reforged:
+    build: .
+    container_name: dragon-knight-reforged
+    restart: unless-stopped
+    env_file: .env
+    expose:
+      - "8000"                      # internal only; gateway reaches this over `frontend`
+    # No host port published — NPM proxies to dragon-knight-reforged:8000 directly.
+    # To also reach it directly (like wiki's 3001:3000), add:
+    #   ports:
+    #     - "3002:8000"
+    volumes:
+      - ./data/staticfiles:/app/staticfiles
+      - ./data/media:/app/media
+    networks:
+      - frontend                    # reachable by gateway (NPM)
+      - backend                     # reach main_db
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true

@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "name": "Midworld",
+    "latitude": 0,
+    "longitude": 0,
+    "innprice": 5,
+    "mapprice": 0,
+    "travelpoints": 0,
+    "shop_item_ids": [
+      1,
+      2,
+      3,
+      17,
+      18,
+      19,
+      28,
+      29
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Roma",
+    "latitude": 30,
+    "longitude": 30,
+    "innprice": 10,
+    "mapprice": 25,
+    "travelpoints": 5,
+    "shop_item_ids": [
+      2,
+      3,
+      4,
+      18,
+      19,
+      29
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Bris",
+    "latitude": 70,
+    "longitude": -70,
+    "innprice": 25,
+    "mapprice": 50,
+    "travelpoints": 15,
+    "shop_item_ids": [
+      2,
+      3,
+      4,
+      5,
+      18,
+      19,
+      20
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Kalle",
+    "latitude": -100,
+    "longitude": 100,
+    "innprice": 40,
+    "mapprice": 100,
+    "travelpoints": 30,
+    "shop_item_ids": [
+      5,
+      6,
+      8,
+      10,
+      12,
+      21,
+      22,
+      23,
+      29,
+      30
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Narcissa",
+    "latitude": -130,
+    "longitude": -130,
+    "innprice": 60,
+    "mapprice": 500,
+    "travelpoints": 50,
+    "shop_item_ids": [
+      4,
+      7,
+      9,
+      11,
+      13,
+      21,
+      22,
+      23,
+      29,
+      30,
+      31
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Hambry",
+    "latitude": 170,
+    "longitude": 170,
+    "innprice": 90,
+    "mapprice": 1000,
+    "travelpoints": 80,
+    "shop_item_ids": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      23,
+      24,
+      30,
+      31
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Gilead",
+    "latitude": 200,
+    "longitude": -200,
+    "innprice": 100,
+    "mapprice": 3000,
+    "travelpoints": 110,
+    "shop_item_ids": [
+      12,
+      13,
+      14,
+      15,
+      24,
+      25,
+      26,
+      32
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Endworld",
+    "latitude": -250,
+    "longitude": -250,
+    "innprice": 125,
+    "mapprice": 9000,
+    "travelpoints": 160,
+    "shop_item_ids": [
+      16,
+      27,
+      33
+    ]
+  }
+]

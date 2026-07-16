@@ -1,0 +1,258 @@
+[
+  {
+    "id": 1,
+    "name": "Life Pebble",
+    "mlevel": 1,
+    "type": 1,
+    "attribute1": "maxhp,10",
+    "attribute2": "X"
+  },
+  {
+    "id": 2,
+    "name": "Life Stone",
+    "mlevel": 10,
+    "type": 1,
+    "attribute1": "maxhp,25",
+    "attribute2": "X"
+  },
+  {
+    "id": 3,
+    "name": "Life Rock",
+    "mlevel": 25,
+    "type": 1,
+    "attribute1": "maxhp,50",
+    "attribute2": "X"
+  },
+  {
+    "id": 4,
+    "name": "Magic Pebble",
+    "mlevel": 1,
+    "type": 1,
+    "attribute1": "maxmp,10",
+    "attribute2": "X"
+  },
+  {
+    "id": 5,
+    "name": "Magic Stone",
+    "mlevel": 10,
+    "type": 1,
+    "attribute1": "maxmp,25",
+    "attribute2": "X"
+  },
+  {
+    "id": 6,
+    "name": "Magic Rock",
+    "mlevel": 25,
+    "type": 1,
+    "attribute1": "maxmp,50",
+    "attribute2": "X"
+  },
+  {
+    "id": 7,
+    "name": "Dragon's Scale",
+    "mlevel": 10,
+    "type": 1,
+    "attribute1": "defensepower,25",
+    "attribute2": "X"
+  },
+  {
+    "id": 8,
+    "name": "Dragon's Plate",
+    "mlevel": 30,
+    "type": 1,
+    "attribute1": "defensepower,50",
+    "attribute2": "X"
+  },
+  {
+    "id": 9,
+    "name": "Dragon's Claw",
+    "mlevel": 10,
+    "type": 1,
+    "attribute1": "attackpower,25",
+    "attribute2": "X"
+  },
+  {
+    "id": 10,
+    "name": "Dragon's Tooth",
+    "mlevel": 30,
+    "type": 1,
+    "attribute1": "attackpower,50",
+    "attribute2": "X"
+  },
+  {
+    "id": 11,
+    "name": "Dragon's Tear",
+    "mlevel": 35,
+    "type": 1,
+    "attribute1": "strength,50",
+    "attribute2": "X"
+  },
+  {
+    "id": 12,
+    "name": "Dragon's Wing",
+    "mlevel": 35,
+    "type": 1,
+    "attribute1": "dexterity,50",
+    "attribute2": "X"
+  },
+  {
+    "id": 13,
+    "name": "Demon's Sin",
+    "mlevel": 35,
+    "type": 1,
+    "attribute1": "maxhp,-50",
+    "attribute2": "strength,50"
+  },
+  {
+    "id": 14,
+    "name": "Demon's Fall",
+    "mlevel": 35,
+    "type": 1,
+    "attribute1": "maxmp,-50",
+    "attribute2": "strength,50"
+  },
+  {
+    "id": 15,
+    "name": "Demon's Lie",
+    "mlevel": 45,
+    "type": 1,
+    "attribute1": "maxhp,-100",
+    "attribute2": "strength,100"
+  },
+  {
+    "id": 16,
+    "name": "Demon's Hate",
+    "mlevel": 45,
+    "type": 1,
+    "attribute1": "maxmp,-100",
+    "attribute2": "strength,100"
+  },
+  {
+    "id": 17,
+    "name": "Angel's Joy",
+    "mlevel": 25,
+    "type": 1,
+    "attribute1": "maxhp,25",
+    "attribute2": "strength,25"
+  },
+  {
+    "id": 18,
+    "name": "Angel's Rise",
+    "mlevel": 30,
+    "type": 1,
+    "attribute1": "maxhp,50",
+    "attribute2": "strength,50"
+  },
+  {
+    "id": 19,
+    "name": "Angel's Truth",
+    "mlevel": 35,
+    "type": 1,
+    "attribute1": "maxhp,75",
+    "attribute2": "strength,75"
+  },
+  {
+    "id": 20,
+    "name": "Angel's Love",
+    "mlevel": 40,
+    "type": 1,
+    "attribute1": "maxhp,100",
+    "attribute2": "strength,100"
+  },
+  {
+    "id": 21,
+    "name": "Seraph's Joy",
+    "mlevel": 25,
+    "type": 1,
+    "attribute1": "maxmp,25",
+    "attribute2": "dexterity,25"
+  },
+  {
+    "id": 22,
+    "name": "Seraph's Rise",
+    "mlevel": 30,
+    "type": 1,
+    "attribute1": "maxmp,50",
+    "attribute2": "dexterity,50"
+  },
+  {
+    "id": 23,
+    "name": "Seraph's Truth",
+    "mlevel": 35,
+    "type": 1,
+    "attribute1": "maxmp,75",
+    "attribute2": "dexterity,75"
+  },
+  {
+    "id": 24,
+    "name": "Seraph's Love",
+    "mlevel": 40,
+    "type": 1,
+    "attribute1": "maxmp,100",
+    "attribute2": "dexterity,100"
+  },
+  {
+    "id": 25,
+    "name": "Ruby",
+    "mlevel": 50,
+    "type": 1,
+    "attribute1": "maxhp,150",
+    "attribute2": "X"
+  },
+  {
+    "id": 26,
+    "name": "Pearl",
+    "mlevel": 50,
+    "type": 1,
+    "attribute1": "maxmp,150",
+    "attribute2": "X"
+  },
+  {
+    "id": 27,
+    "name": "Emerald",
+    "mlevel": 50,
+    "type": 1,
+    "attribute1": "strength,150",
+    "attribute2": "X"
+  },
+  {
+    "id": 28,
+    "name": "Topaz",
+    "mlevel": 50,
+    "type": 1,
+    "attribute1": "dexterity,150",
+    "attribute2": "X"
+  },
+  {
+    "id": 29,
+    "name": "Obsidian",
+    "mlevel": 50,
+    "type": 1,
+    "attribute1": "attackpower,150",
+    "attribute2": "X"
+  },
+  {
+    "id": 30,
+    "name": "Diamond",
+    "mlevel": 50,
+    "type": 1,
+    "attribute1": "defensepower,150",
+    "attribute2": "X"
+  },
+  {
+    "id": 31,
+    "name": "Memory Drop",
+    "mlevel": 5,
+    "type": 1,
+    "attribute1": "expbonus,10",
+    "attribute2": "X"
+  },
+  {
+    "id": 32,
+    "name": "Fortune Drop",
+    "mlevel": 5,
+    "type": 1,
+    "attribute1": "goldbonus,10",
+    "attribute2": "X"
+  }
+]

@@ -1,0 +1,24 @@
+# Secrets & local env
+.env
+*.env
+!.env.example
+
+# Runtime data (bind-mounted into the container; not source)
+/data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Django
+db.sqlite3
+/staticfiles/
+/media/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/

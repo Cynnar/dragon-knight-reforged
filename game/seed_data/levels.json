@@ -1,0 +1,3202 @@
+[
+  {
+    "level": 1,
+    "classes": {
+      "mage": {
+        "exp_required": 0,
+        "hp_gain": 15,
+        "mp_gain": 0,
+        "tp_gain": 5,
+        "strength_gain": 5,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 0,
+        "hp_gain": 15,
+        "mp_gain": 0,
+        "tp_gain": 5,
+        "strength_gain": 5,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 0,
+        "hp_gain": 15,
+        "mp_gain": 0,
+        "tp_gain": 5,
+        "strength_gain": 5,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 2,
+    "classes": {
+      "mage": {
+        "exp_required": 15,
+        "hp_gain": 2,
+        "mp_gain": 5,
+        "tp_gain": 1,
+        "strength_gain": 0,
+        "dexterity_gain": 1,
+        "spell_learned_id": 1
+      },
+      "warrior": {
+        "exp_required": 18,
+        "hp_gain": 2,
+        "mp_gain": 4,
+        "tp_gain": 1,
+        "strength_gain": 2,
+        "dexterity_gain": 1,
+        "spell_learned_id": 1
+      },
+      "paladin": {
+        "exp_required": 20,
+        "hp_gain": 2,
+        "mp_gain": 5,
+        "tp_gain": 1,
+        "strength_gain": 0,
+        "dexterity_gain": 2,
+        "spell_learned_id": 1
+      }
+    }
+  },
+  {
+    "level": 3,
+    "classes": {
+      "mage": {
+        "exp_required": 45,
+        "hp_gain": 3,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 1,
+        "dexterity_gain": 2,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 54,
+        "hp_gain": 2,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 2,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 60,
+        "hp_gain": 2,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 1,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 4,
+    "classes": {
+      "mage": {
+        "exp_required": 105,
+        "hp_gain": 3,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 1,
+        "dexterity_gain": 2,
+        "spell_learned_id": 6
+      },
+      "warrior": {
+        "exp_required": 126,
+        "hp_gain": 2,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 2,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 140,
+        "hp_gain": 2,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 1,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 5,
+    "classes": {
+      "mage": {
+        "exp_required": 195,
+        "hp_gain": 2,
+        "mp_gain": 5,
+        "tp_gain": 2,
+        "strength_gain": 0,
+        "dexterity_gain": 1,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 234,
+        "hp_gain": 2,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 1,
+        "spell_learned_id": 6
+      },
+      "paladin": {
+        "exp_required": 260,
+        "hp_gain": 2,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 0,
+        "dexterity_gain": 2,
+        "spell_learned_id": 6
+      }
+    }
+  },
+  {
+    "level": 6,
+    "classes": {
+      "mage": {
+        "exp_required": 330,
+        "hp_gain": 4,
+        "mp_gain": 5,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 396,
+        "hp_gain": 3,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 440,
+        "hp_gain": 3,
+        "mp_gain": 5,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 7,
+    "classes": {
+      "mage": {
+        "exp_required": 532,
+        "hp_gain": 3,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 1,
+        "dexterity_gain": 2,
+        "spell_learned_id": 11
+      },
+      "warrior": {
+        "exp_required": 639,
+        "hp_gain": 2,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 2,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 710,
+        "hp_gain": 2,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 1,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 8,
+    "classes": {
+      "mage": {
+        "exp_required": 835,
+        "hp_gain": 2,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 0,
+        "dexterity_gain": 1,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 1003,
+        "hp_gain": 2,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 1,
+        "spell_learned_id": 11
+      },
+      "paladin": {
+        "exp_required": 1115,
+        "hp_gain": 2,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 0,
+        "dexterity_gain": 2,
+        "spell_learned_id": 11
+      }
+    }
+  },
+  {
+    "level": 9,
+    "classes": {
+      "mage": {
+        "exp_required": 1290,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": 2
+      },
+      "warrior": {
+        "exp_required": 1549,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 1722,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 10,
+    "classes": {
+      "mage": {
+        "exp_required": 1973,
+        "hp_gain": 10,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 2369,
+        "hp_gain": 10,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 6,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 2633,
+        "hp_gain": 10,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 11,
+    "classes": {
+      "mage": {
+        "exp_required": 2997,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 3598,
+        "hp_gain": 4,
+        "mp_gain": 1,
+        "tp_gain": 2,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": 2
+      },
+      "paladin": {
+        "exp_required": 3999,
+        "hp_gain": 4,
+        "mp_gain": 1,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": 2
+      }
+    }
+  },
+  {
+    "level": 12,
+    "classes": {
+      "mage": {
+        "exp_required": 4533,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 3,
+        "spell_learned_id": 7
+      },
+      "warrior": {
+        "exp_required": 5441,
+        "hp_gain": 4,
+        "mp_gain": 1,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 6047,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 13,
+    "classes": {
+      "mage": {
+        "exp_required": 6453,
+        "hp_gain": 4,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 7745,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 8607,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 14,
+    "classes": {
+      "mage": {
+        "exp_required": 8853,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": 17
+      },
+      "warrior": {
+        "exp_required": 10625,
+        "hp_gain": 4,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": 7
+      },
+      "paladin": {
+        "exp_required": 11807,
+        "hp_gain": 4,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": 7
+      }
+    }
+  },
+  {
+    "level": 15,
+    "classes": {
+      "mage": {
+        "exp_required": 11853,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 14225,
+        "hp_gain": 4,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 15808,
+        "hp_gain": 4,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 16,
+    "classes": {
+      "mage": {
+        "exp_required": 15603,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 18725,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 20807,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 17,
+    "classes": {
+      "mage": {
+        "exp_required": 20290,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 3,
+        "spell_learned_id": 12
+      },
+      "warrior": {
+        "exp_required": 24350,
+        "hp_gain": 4,
+        "mp_gain": 1,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 27057,
+        "hp_gain": 4,
+        "mp_gain": 1,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 18,
+    "classes": {
+      "mage": {
+        "exp_required": 25563,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 30678,
+        "hp_gain": 3,
+        "mp_gain": 1,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": 14
+      },
+      "paladin": {
+        "exp_required": 34869,
+        "hp_gain": 3,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 4,
+        "spell_learned_id": 17
+      }
+    }
+  },
+  {
+    "level": 19,
+    "classes": {
+      "mage": {
+        "exp_required": 31495,
+        "hp_gain": 4,
+        "mp_gain": 5,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 37797,
+        "hp_gain": 3,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 43657,
+        "hp_gain": 3,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 20,
+    "classes": {
+      "mage": {
+        "exp_required": 38169,
+        "hp_gain": 10,
+        "mp_gain": 6,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 45805,
+        "hp_gain": 10,
+        "mp_gain": 5,
+        "tp_gain": 2,
+        "strength_gain": 5,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 53543,
+        "hp_gain": 10,
+        "mp_gain": 6,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 21,
+    "classes": {
+      "mage": {
+        "exp_required": 45676,
+        "hp_gain": 4,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 54814,
+        "hp_gain": 4,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 64664,
+        "hp_gain": 4,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 22,
+    "classes": {
+      "mage": {
+        "exp_required": 54121,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 64949,
+        "hp_gain": 4,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": 12
+      },
+      "paladin": {
+        "exp_required": 77175,
+        "hp_gain": 4,
+        "mp_gain": 5,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": 12
+      }
+    }
+  },
+  {
+    "level": 23,
+    "classes": {
+      "mage": {
+        "exp_required": 63622,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 76350,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 91250,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 24,
+    "classes": {
+      "mage": {
+        "exp_required": 74310,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 89176,
+        "hp_gain": 4,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 107083,
+        "hp_gain": 4,
+        "mp_gain": 5,
+        "tp_gain": 2,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 25,
+    "classes": {
+      "mage": {
+        "exp_required": 86334,
+        "hp_gain": 4,
+        "mp_gain": 4,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 3,
+        "spell_learned_id": 3
+      },
+      "warrior": {
+        "exp_required": 103605,
+        "hp_gain": 3,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": 17
+      },
+      "paladin": {
+        "exp_required": 124895,
+        "hp_gain": 3,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 4,
+        "spell_learned_id": 14
+      }
+    }
+  },
+  {
+    "level": 26,
+    "classes": {
+      "mage": {
+        "exp_required": 99861,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 119837,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 144933,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 27,
+    "classes": {
+      "mage": {
+        "exp_required": 115078,
+        "hp_gain": 6,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 138098,
+        "hp_gain": 5,
+        "mp_gain": 1,
+        "tp_gain": 2,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 167475,
+        "hp_gain": 5,
+        "mp_gain": 1,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 28,
+    "classes": {
+      "mage": {
+        "exp_required": 132197,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 158641,
+        "hp_gain": 4,
+        "mp_gain": 1,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 192835,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 2,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 29,
+    "classes": {
+      "mage": {
+        "exp_required": 151456,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 181751,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": 3
+      },
+      "paladin": {
+        "exp_required": 221365,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 2,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": 3
+      }
+    }
+  },
+  {
+    "level": 30,
+    "classes": {
+      "mage": {
+        "exp_required": 173121,
+        "hp_gain": 10,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 207749,
+        "hp_gain": 10,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 253461,
+        "hp_gain": 10,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 31,
+    "classes": {
+      "mage": {
+        "exp_required": 197494,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": 8
+      },
+      "warrior": {
+        "exp_required": 236996,
+        "hp_gain": 4,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 289568,
+        "hp_gain": 4,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 32,
+    "classes": {
+      "mage": {
+        "exp_required": 224913,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 269898,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 330188,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 33,
+    "classes": {
+      "mage": {
+        "exp_required": 255758,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 306912,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 375885,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 34,
+    "classes": {
+      "mage": {
+        "exp_required": 290458,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 348552,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": 8
+      },
+      "paladin": {
+        "exp_required": 427294,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": 8
+      }
+    }
+  },
+  {
+    "level": 35,
+    "classes": {
+      "mage": {
+        "exp_required": 329495,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 395397,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 485126,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 36,
+    "classes": {
+      "mage": {
+        "exp_required": 373412,
+        "hp_gain": 4,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 2,
+        "dexterity_gain": 3,
+        "spell_learned_id": 18
+      },
+      "warrior": {
+        "exp_required": 448097,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 550188,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 2,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 37,
+    "classes": {
+      "mage": {
+        "exp_required": 422818,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 507384,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 623383,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 38,
+    "classes": {
+      "mage": {
+        "exp_required": 478399,
+        "hp_gain": 6,
+        "mp_gain": 5,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 574081,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": 15
+      },
+      "paladin": {
+        "exp_required": 705726,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": 18
+      }
+    }
+  },
+  {
+    "level": 39,
+    "classes": {
+      "mage": {
+        "exp_required": 540927,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 649115,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 798362,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 40,
+    "classes": {
+      "mage": {
+        "exp_required": 611271,
+        "hp_gain": 15,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 5,
+        "spell_learned_id": 13
+      },
+      "warrior": {
+        "exp_required": 733528,
+        "hp_gain": 15,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 7,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 902577,
+        "hp_gain": 15,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 41,
+    "classes": {
+      "mage": {
+        "exp_required": 690408,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 2,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 828492,
+        "hp_gain": 6,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 7,
+        "dexterity_gain": 2,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 1019818,
+        "hp_gain": 6,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 42,
+    "classes": {
+      "mage": {
+        "exp_required": 779437,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 935326,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 7,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 1151714,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 43,
+    "classes": {
+      "mage": {
+        "exp_required": 879592,
+        "hp_gain": 8,
+        "mp_gain": 5,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 1055514,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 1300096,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 44,
+    "classes": {
+      "mage": {
+        "exp_required": 992268,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 1190725,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 1448478,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 45,
+    "classes": {
+      "mage": {
+        "exp_required": 1119028,
+        "hp_gain": 5,
+        "mp_gain": 8,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": 4
+      },
+      "warrior": {
+        "exp_required": 1325936,
+        "hp_gain": 5,
+        "mp_gain": 8,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": 18
+      },
+      "paladin": {
+        "exp_required": 1596860,
+        "hp_gain": 5,
+        "mp_gain": 8,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": 4
+      }
+    }
+  },
+  {
+    "level": 46,
+    "classes": {
+      "mage": {
+        "exp_required": 1245788,
+        "hp_gain": 6,
+        "mp_gain": 5,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 1461147,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 1745242,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 47,
+    "classes": {
+      "mage": {
+        "exp_required": 1372548,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 1596358,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 7,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 1893624,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 48,
+    "classes": {
+      "mage": {
+        "exp_required": 1499308,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 1731569,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 2042006,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 49,
+    "classes": {
+      "mage": {
+        "exp_required": 1626068,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 1866780,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 2190388,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 50,
+    "classes": {
+      "mage": {
+        "exp_required": 1752828,
+        "hp_gain": 15,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 2001991,
+        "hp_gain": 15,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 7,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 2338770,
+        "hp_gain": 15,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 51,
+    "classes": {
+      "mage": {
+        "exp_required": 1879588,
+        "hp_gain": 6,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": 9
+      },
+      "warrior": {
+        "exp_required": 2137202,
+        "hp_gain": 5,
+        "mp_gain": 1,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": 13
+      },
+      "paladin": {
+        "exp_required": 2487152,
+        "hp_gain": 5,
+        "mp_gain": 1,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": 13
+      }
+    }
+  },
+  {
+    "level": 52,
+    "classes": {
+      "mage": {
+        "exp_required": 2006348,
+        "hp_gain": 7,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 2272413,
+        "hp_gain": 6,
+        "mp_gain": 1,
+        "tp_gain": 3,
+        "strength_gain": 7,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 2635534,
+        "hp_gain": 6,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 53,
+    "classes": {
+      "mage": {
+        "exp_required": 2133108,
+        "hp_gain": 8,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 2407624,
+        "hp_gain": 7,
+        "mp_gain": 1,
+        "tp_gain": 3,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 2783916,
+        "hp_gain": 7,
+        "mp_gain": 1,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 54,
+    "classes": {
+      "mage": {
+        "exp_required": 2259868,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 2542835,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 2932298,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 55,
+    "classes": {
+      "mage": {
+        "exp_required": 2386628,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 2678046,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 7,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 3080680,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 56,
+    "classes": {
+      "mage": {
+        "exp_required": 2513388,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 2813257,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 7,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 3229062,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 7,
+        "spell_learned_id": 9
+      }
+    }
+  },
+  {
+    "level": 57,
+    "classes": {
+      "mage": {
+        "exp_required": 2640148,
+        "hp_gain": 6,
+        "mp_gain": 5,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 2948468,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 3377444,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 58,
+    "classes": {
+      "mage": {
+        "exp_required": 2766908,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 3083679,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 3,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": 19
+      },
+      "paladin": {
+        "exp_required": 3525826,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 3,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 59,
+    "classes": {
+      "mage": {
+        "exp_required": 2893668,
+        "hp_gain": 8,
+        "mp_gain": 3,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 3218890,
+        "hp_gain": 7,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 3674208,
+        "hp_gain": 7,
+        "mp_gain": 2,
+        "tp_gain": 3,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 60,
+    "classes": {
+      "mage": {
+        "exp_required": 3020428,
+        "hp_gain": 15,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 6,
+        "spell_learned_id": 19
+      },
+      "warrior": {
+        "exp_required": 3354101,
+        "hp_gain": 15,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 8,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 3822590,
+        "hp_gain": 15,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": 15
+      }
+    }
+  },
+  {
+    "level": 61,
+    "classes": {
+      "mage": {
+        "exp_required": 3147188,
+        "hp_gain": 8,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 3489312,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 3970972,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 62,
+    "classes": {
+      "mage": {
+        "exp_required": 3273948,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 3624523,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 4119354,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 63,
+    "classes": {
+      "mage": {
+        "exp_required": 3400708,
+        "hp_gain": 9,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 3759734,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 9,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 4267736,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 9,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 64,
+    "classes": {
+      "mage": {
+        "exp_required": 3527468,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 3894945,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 4416118,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 65,
+    "classes": {
+      "mage": {
+        "exp_required": 3654228,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 4030156,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 4564500,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 66,
+    "classes": {
+      "mage": {
+        "exp_required": 3780988,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 4165367,
+        "hp_gain": 8,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 4712882,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 67,
+    "classes": {
+      "mage": {
+        "exp_required": 3907748,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 4300578,
+        "hp_gain": 7,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 4861264,
+        "hp_gain": 7,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 68,
+    "classes": {
+      "mage": {
+        "exp_required": 4034508,
+        "hp_gain": 9,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 4435789,
+        "hp_gain": 8,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 9,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 5009646,
+        "hp_gain": 8,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 9,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 69,
+    "classes": {
+      "mage": {
+        "exp_required": 4161268,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 4571000,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 5158028,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 70,
+    "classes": {
+      "mage": {
+        "exp_required": 4288028,
+        "hp_gain": 20,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 6,
+        "spell_learned_id": 5
+      },
+      "warrior": {
+        "exp_required": 4706211,
+        "hp_gain": 20,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 8,
+        "dexterity_gain": 6,
+        "spell_learned_id": 16
+      },
+      "paladin": {
+        "exp_required": 5306410,
+        "hp_gain": 20,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 71,
+    "classes": {
+      "mage": {
+        "exp_required": 4414788,
+        "hp_gain": 5,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 4841422,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 5454792,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 72,
+    "classes": {
+      "mage": {
+        "exp_required": 4541548,
+        "hp_gain": 6,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 4976633,
+        "hp_gain": 5,
+        "mp_gain": 1,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 5603174,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 73,
+    "classes": {
+      "mage": {
+        "exp_required": 4668308,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 5111844,
+        "hp_gain": 8,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 5751556,
+        "hp_gain": 8,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 74,
+    "classes": {
+      "mage": {
+        "exp_required": 4795068,
+        "hp_gain": 7,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 5247055,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 5899938,
+        "hp_gain": 6,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 75,
+    "classes": {
+      "mage": {
+        "exp_required": 4921828,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 5382266,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 6048320,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 76,
+    "classes": {
+      "mage": {
+        "exp_required": 5048588,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 5517477,
+        "hp_gain": 6,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 6196702,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 77,
+    "classes": {
+      "mage": {
+        "exp_required": 5175348,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 5652688,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 6345084,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 78,
+    "classes": {
+      "mage": {
+        "exp_required": 5302108,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 5787899,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 6493466,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 79,
+    "classes": {
+      "mage": {
+        "exp_required": 5428868,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": 10
+      },
+      "warrior": {
+        "exp_required": 5923110,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 6641848,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 80,
+    "classes": {
+      "mage": {
+        "exp_required": 5555628,
+        "hp_gain": 20,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 6058321,
+        "hp_gain": 20,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 6790230,
+        "hp_gain": 20,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 81,
+    "classes": {
+      "mage": {
+        "exp_required": 5682388,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 6193532,
+        "hp_gain": 7,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 6938612,
+        "hp_gain": 7,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 82,
+    "classes": {
+      "mage": {
+        "exp_required": 5809148,
+        "hp_gain": 6,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 6328743,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 7086994,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 83,
+    "classes": {
+      "mage": {
+        "exp_required": 5935908,
+        "hp_gain": 6,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 6463954,
+        "hp_gain": 6,
+        "mp_gain": 1,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 7235376,
+        "hp_gain": 6,
+        "mp_gain": 1,
+        "tp_gain": 4,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 84,
+    "classes": {
+      "mage": {
+        "exp_required": 6062668,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 6599165,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 7383758,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 85,
+    "classes": {
+      "mage": {
+        "exp_required": 6189428,
+        "hp_gain": 7,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 6734376,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 7532140,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 86,
+    "classes": {
+      "mage": {
+        "exp_required": 6316188,
+        "hp_gain": 8,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 6869587,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 7680522,
+        "hp_gain": 8,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 87,
+    "classes": {
+      "mage": {
+        "exp_required": 6442948,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 7004798,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 7828904,
+        "hp_gain": 7,
+        "mp_gain": 3,
+        "tp_gain": 4,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 88,
+    "classes": {
+      "mage": {
+        "exp_required": 6569708,
+        "hp_gain": 9,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 7140009,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 4,
+        "strength_gain": 9,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 7977286,
+        "hp_gain": 8,
+        "mp_gain": 5,
+        "tp_gain": 4,
+        "strength_gain": 7,
+        "dexterity_gain": 9,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 89,
+    "classes": {
+      "mage": {
+        "exp_required": 6696468,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 7275220,
+        "hp_gain": 5,
+        "mp_gain": 1,
+        "tp_gain": 4,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 8125668,
+        "hp_gain": 5,
+        "mp_gain": 1,
+        "tp_gain": 4,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 90,
+    "classes": {
+      "mage": {
+        "exp_required": 6823228,
+        "hp_gain": 20,
+        "mp_gain": 2,
+        "tp_gain": 5,
+        "strength_gain": 7,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 7410431,
+        "hp_gain": 20,
+        "mp_gain": 1,
+        "tp_gain": 5,
+        "strength_gain": 9,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 8274050,
+        "hp_gain": 20,
+        "mp_gain": 2,
+        "tp_gain": 5,
+        "strength_gain": 7,
+        "dexterity_gain": 9,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 91,
+    "classes": {
+      "mage": {
+        "exp_required": 6949988,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 7545642,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 5,
+        "strength_gain": 5,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 8422432,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 5,
+        "strength_gain": 3,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 92,
+    "classes": {
+      "mage": {
+        "exp_required": 7076748,
+        "hp_gain": 6,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 7680853,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 5,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 8570814,
+        "hp_gain": 4,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 93,
+    "classes": {
+      "mage": {
+        "exp_required": 7203508,
+        "hp_gain": 8,
+        "mp_gain": 4,
+        "tp_gain": 5,
+        "strength_gain": 6,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 7816064,
+        "hp_gain": 6,
+        "mp_gain": 2,
+        "tp_gain": 5,
+        "strength_gain": 8,
+        "dexterity_gain": 7,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 8719196,
+        "hp_gain": 6,
+        "mp_gain": 2,
+        "tp_gain": 5,
+        "strength_gain": 6,
+        "dexterity_gain": 8,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 94,
+    "classes": {
+      "mage": {
+        "exp_required": 7330268,
+        "hp_gain": 4,
+        "mp_gain": 4,
+        "tp_gain": 5,
+        "strength_gain": 3,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 7951275,
+        "hp_gain": 4,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 5,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 8867578,
+        "hp_gain": 4,
+        "mp_gain": 4,
+        "tp_gain": 5,
+        "strength_gain": 3,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 95,
+    "classes": {
+      "mage": {
+        "exp_required": 7457028,
+        "hp_gain": 3,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 5,
+        "dexterity_gain": 2,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 8086486,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 5,
+        "strength_gain": 7,
+        "dexterity_gain": 2,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 9015960,
+        "hp_gain": 4,
+        "mp_gain": 2,
+        "tp_gain": 5,
+        "strength_gain": 5,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 96,
+    "classes": {
+      "mage": {
+        "exp_required": 7583788,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 8221697,
+        "hp_gain": 5,
+        "mp_gain": 2,
+        "tp_gain": 5,
+        "strength_gain": 7,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 9164342,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 4,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 97,
+    "classes": {
+      "mage": {
+        "exp_required": 7710548,
+        "hp_gain": 5,
+        "mp_gain": 4,
+        "tp_gain": 5,
+        "strength_gain": 4,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 8356908,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 7,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 9312724,
+        "hp_gain": 5,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 4,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 98,
+    "classes": {
+      "mage": {
+        "exp_required": 7837308,
+        "hp_gain": 4,
+        "mp_gain": 5,
+        "tp_gain": 5,
+        "strength_gain": 4,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 8492119,
+        "hp_gain": 4,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 7,
+        "dexterity_gain": 3,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 9461106,
+        "hp_gain": 4,
+        "mp_gain": 4,
+        "tp_gain": 5,
+        "strength_gain": 4,
+        "dexterity_gain": 4,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 99,
+    "classes": {
+      "mage": {
+        "exp_required": 7964068,
+        "hp_gain": 50,
+        "mp_gain": 5,
+        "tp_gain": 5,
+        "strength_gain": 6,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 8627330,
+        "hp_gain": 50,
+        "mp_gain": 3,
+        "tp_gain": 5,
+        "strength_gain": 9,
+        "dexterity_gain": 5,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 9609488,
+        "hp_gain": 50,
+        "mp_gain": 4,
+        "tp_gain": 5,
+        "strength_gain": 6,
+        "dexterity_gain": 6,
+        "spell_learned_id": null
+      }
+    }
+  },
+  {
+    "level": 100,
+    "classes": {
+      "mage": {
+        "exp_required": 16777215,
+        "hp_gain": 0,
+        "mp_gain": 0,
+        "tp_gain": 0,
+        "strength_gain": 0,
+        "dexterity_gain": 0,
+        "spell_learned_id": null
+      },
+      "warrior": {
+        "exp_required": 16777215,
+        "hp_gain": 0,
+        "mp_gain": 0,
+        "tp_gain": 0,
+        "strength_gain": 0,
+        "dexterity_gain": 0,
+        "spell_learned_id": null
+      },
+      "paladin": {
+        "exp_required": 16777215,
+        "hp_gain": 0,
+        "mp_gain": 0,
+        "tp_gain": 0,
+        "strength_gain": 0,
+        "dexterity_gain": 0,
+        "spell_learned_id": null
+      }
+    }
+  }
+]

@@ -1,0 +1,299 @@
+[
+  {
+    "id": 1,
+    "type": 1,
+    "name": "Stick",
+    "buycost": 10,
+    "special": null,
+    "slot": "weapon",
+    "power": 2
+  },
+  {
+    "id": 2,
+    "type": 1,
+    "name": "Branch",
+    "buycost": 30,
+    "special": null,
+    "slot": "weapon",
+    "power": 4
+  },
+  {
+    "id": 3,
+    "type": 1,
+    "name": "Club",
+    "buycost": 40,
+    "special": null,
+    "slot": "weapon",
+    "power": 5
+  },
+  {
+    "id": 4,
+    "type": 1,
+    "name": "Dagger",
+    "buycost": 90,
+    "special": null,
+    "slot": "weapon",
+    "power": 8
+  },
+  {
+    "id": 5,
+    "type": 1,
+    "name": "Hatchet",
+    "buycost": 150,
+    "special": null,
+    "slot": "weapon",
+    "power": 12
+  },
+  {
+    "id": 6,
+    "type": 1,
+    "name": "Axe",
+    "buycost": 200,
+    "special": null,
+    "slot": "weapon",
+    "power": 16
+  },
+  {
+    "id": 7,
+    "type": 1,
+    "name": "Brand",
+    "buycost": 300,
+    "special": null,
+    "slot": "weapon",
+    "power": 25
+  },
+  {
+    "id": 8,
+    "type": 1,
+    "name": "Poleaxe",
+    "buycost": 500,
+    "special": null,
+    "slot": "weapon",
+    "power": 35
+  },
+  {
+    "id": 9,
+    "type": 1,
+    "name": "Broadsword",
+    "buycost": 800,
+    "special": null,
+    "slot": "weapon",
+    "power": 45
+  },
+  {
+    "id": 10,
+    "type": 1,
+    "name": "Battle Axe",
+    "buycost": 1200,
+    "special": null,
+    "slot": "weapon",
+    "power": 50
+  },
+  {
+    "id": 11,
+    "type": 1,
+    "name": "Claymore",
+    "buycost": 2000,
+    "special": null,
+    "slot": "weapon",
+    "power": 60
+  },
+  {
+    "id": 12,
+    "type": 1,
+    "name": "Dark Axe",
+    "buycost": 3000,
+    "special": "expbonus,-5",
+    "slot": "weapon",
+    "power": 100
+  },
+  {
+    "id": 13,
+    "type": 1,
+    "name": "Dark Sword",
+    "buycost": 4500,
+    "special": "expbonus,-10",
+    "slot": "weapon",
+    "power": 125
+  },
+  {
+    "id": 14,
+    "type": 1,
+    "name": "Bright Sword",
+    "buycost": 6000,
+    "special": "expbonus,10",
+    "slot": "weapon",
+    "power": 100
+  },
+  {
+    "id": 15,
+    "type": 1,
+    "name": "Magic Sword",
+    "buycost": 10000,
+    "special": "maxmp,50",
+    "slot": "weapon",
+    "power": 150
+  },
+  {
+    "id": 16,
+    "type": 1,
+    "name": "Destiny Blade",
+    "buycost": 50000,
+    "special": "strength,50",
+    "slot": "weapon",
+    "power": 250
+  },
+  {
+    "id": 17,
+    "type": 2,
+    "name": "Skivvies",
+    "buycost": 25,
+    "special": "goldbonus,10",
+    "slot": "armor",
+    "power": 2
+  },
+  {
+    "id": 18,
+    "type": 2,
+    "name": "Clothes",
+    "buycost": 50,
+    "special": null,
+    "slot": "armor",
+    "power": 5
+  },
+  {
+    "id": 19,
+    "type": 2,
+    "name": "Leather Armor",
+    "buycost": 75,
+    "special": null,
+    "slot": "armor",
+    "power": 10
+  },
+  {
+    "id": 20,
+    "type": 2,
+    "name": "Hard Leather Armor",
+    "buycost": 150,
+    "special": null,
+    "slot": "armor",
+    "power": 25
+  },
+  {
+    "id": 21,
+    "type": 2,
+    "name": "Chain Mail",
+    "buycost": 300,
+    "special": null,
+    "slot": "armor",
+    "power": 30
+  },
+  {
+    "id": 22,
+    "type": 2,
+    "name": "Bronze Plate",
+    "buycost": 900,
+    "special": null,
+    "slot": "armor",
+    "power": 50
+  },
+  {
+    "id": 23,
+    "type": 2,
+    "name": "Iron Plate",
+    "buycost": 2000,
+    "special": null,
+    "slot": "armor",
+    "power": 100
+  },
+  {
+    "id": 24,
+    "type": 2,
+    "name": "Magic Armor",
+    "buycost": 4000,
+    "special": "maxmp,50",
+    "slot": "armor",
+    "power": 125
+  },
+  {
+    "id": 25,
+    "type": 2,
+    "name": "Dark Armor",
+    "buycost": 5000,
+    "special": "expbonus,-10",
+    "slot": "armor",
+    "power": 150
+  },
+  {
+    "id": 26,
+    "type": 2,
+    "name": "Bright Armor",
+    "buycost": 10000,
+    "special": "expbonus,10",
+    "slot": "armor",
+    "power": 175
+  },
+  {
+    "id": 27,
+    "type": 2,
+    "name": "Destiny Raiment",
+    "buycost": 50000,
+    "special": "dexterity,50",
+    "slot": "armor",
+    "power": 200
+  },
+  {
+    "id": 28,
+    "type": 3,
+    "name": "Reed Shield",
+    "buycost": 50,
+    "special": null,
+    "slot": "shield",
+    "power": 2
+  },
+  {
+    "id": 29,
+    "type": 3,
+    "name": "Buckler",
+    "buycost": 100,
+    "special": null,
+    "slot": "shield",
+    "power": 4
+  },
+  {
+    "id": 30,
+    "type": 3,
+    "name": "Small Shield",
+    "buycost": 500,
+    "special": null,
+    "slot": "shield",
+    "power": 10
+  },
+  {
+    "id": 31,
+    "type": 3,
+    "name": "Large Shield",
+    "buycost": 2500,
+    "special": null,
+    "slot": "shield",
+    "power": 30
+  },
+  {
+    "id": 32,
+    "type": 3,
+    "name": "Silver Shield",
+    "buycost": 10000,
+    "special": null,
+    "slot": "shield",
+    "power": 60
+  },
+  {
+    "id": 33,
+    "type": 3,
+    "name": "Destiny Aegis",
+    "buycost": 25000,
+    "special": "maxhp,50",
+    "slot": "shield",
+    "power": 100
+  }
+]

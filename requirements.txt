@@ -1,0 +1,5 @@
+Django>=5.1,<5.2
+django-environ>=0.11
+whitenoise[brotli]>=6.6
+gunicorn>=22.0
+mysqlclient>=2.2

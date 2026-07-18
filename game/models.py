@@ -213,6 +213,9 @@ class Character(models.Model):
         Monster, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
     )
     current_monster_hp = models.PositiveIntegerField(default=0)
+    current_monster_max_hp = models.PositiveIntegerField(
+        default=0, help_text="The monster's rolled starting HP, for the enemy health bar."
+    )
     current_monster_sleep = models.PositiveIntegerField(default=0, help_text="Turns remaining asleep.")
     current_monster_immune = models.IntegerField(choices=MonsterImmunity.choices, default=MonsterImmunity.NONE)
     uber_damage = models.PositiveIntegerField(default=0, help_text="Active % damage buff this fight.")
@@ -338,3 +341,22 @@ class GameControl(models.Model):
 
     def __str__(self):
         return self.game_name
+
+
+class VisitedTile(models.Model):
+    """One row per map tile a character has stepped on — powers the minimap.
+    Cheap to write (one per new tile) and indexed for fast window queries."""
+    character = models.ForeignKey(Character, on_delete=models.CASCADE, related_name="visited_tiles")
+    latitude = models.IntegerField()
+    longitude = models.IntegerField()
+    first_seen = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["character", "latitude", "longitude"],
+                                    name="unique_visited_tile")
+        ]
+        indexes = [models.Index(fields=["character", "latitude", "longitude"])]
+
+    def __str__(self):
+        return f"{self.character.char_name} @({self.latitude},{self.longitude})"

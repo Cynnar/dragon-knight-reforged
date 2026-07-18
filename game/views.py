@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 
 from . import combat, shop
 from .forms import CharacterForm, SignupForm
-from .models import Action, Character, GameControl, LevelTier, Monster, Town
+from .models import Action, Character, GameControl, LevelTier, Monster, Town, VisitedTile
 
 
 # ── pages ────────────────────────────────────────────────────────────────────
@@ -51,6 +51,12 @@ def create_character(request):
             character = form.save(commit=False)
             character.user = request.user
             character.save()
+            mark_visited(character)
+            home_town = Town.objects.filter(
+                latitude=character.latitude, longitude=character.longitude
+            ).first()
+            if home_town:
+                character.unlocked_towns.add(home_town)
             return redirect("home")
     else:
         form = CharacterForm()
@@ -59,11 +65,14 @@ def create_character(request):
 
 # ── movement ─────────────────────────────────────────────────────────────────
 DIRECTIONS = {"north": (0, 1), "south": (0, -1), "east": (1, 0), "west": (-1, 0)}
+MAX_STEPS = 10   # how many tiles a single "travel" action may cover
 
 
 @login_required
 @require_POST
 def move(request, direction):
+    """Walk 1..MAX_STEPS tiles. Each tile is resolved in turn, and the journey
+    stops early on a town, an encounter, or the edge of the world."""
     try:
         character = request.user.character
     except Character.DoesNotExist:
@@ -73,6 +82,12 @@ def move(request, direction):
     if character.current_action == Action.FIGHTING:
         messages.info(request, "You can't wander off in the middle of a battle!")
         return play_response(request, character)
+
+    try:
+        steps = int(request.POST.get("steps", 1))
+    except (TypeError, ValueError):
+        steps = 1
+    steps = max(1, min(MAX_STEPS, steps))
 
     log_clear(request)
 
@@ -84,25 +99,48 @@ def move(request, direction):
     control = GameControl.objects.first()
     size = control.game_size if control else 250
     d_long, d_lat = DIRECTIONS[direction]
-    character.longitude = max(-size, min(size, character.longitude + d_long))
-    character.latitude = max(-size, min(size, character.latitude + d_lat))
 
-    town = Town.objects.filter(
-        latitude=character.latitude, longitude=character.longitude
-    ).first()
-    if town:
-        character.current_action = Action.IN_TOWN
+    taken = 0
+    stopped = None
+    for _ in range(steps):
+        new_long = max(-size, min(size, character.longitude + d_long))
+        new_lat = max(-size, min(size, character.latitude + d_lat))
+        if (new_lat, new_long) == (character.latitude, character.longitude):
+            stopped = "edge"
+            break
+
+        character.latitude, character.longitude = new_lat, new_long
+        taken += 1
+
+        town = Town.objects.filter(latitude=new_lat, longitude=new_long).first()
+        if town:
+            character.current_action = Action.IN_TOWN
+            character.save()
+            mark_visited(character)
+            if not character.unlocked_towns.filter(id=town.id).exists():
+                character.unlocked_towns.add(town)
+                messages.success(request, f"You discover {town.name}! You can now travel here.")
+            else:
+                messages.info(request, f"You arrive at {town.name}.")
+            stopped = "town"
+            break
+
+        character.current_action = Action.EXPLORING
+        mark_visited(character)
+        if random.randint(1, 5) == 1 and _start_encounter(character, control, request):
+            character.save()
+            stopped = "encounter"
+            break
+    else:
         character.save()
-        messages.info(request, f"You arrive at {town.name}.")
-        return play_response(request, character)
 
-    character.current_action = Action.EXPLORING
-    if random.randint(1, 5) == 1 and _start_encounter(character, control, request):
-        character.save()
-        return play_response(request, character)
-
-    character.save()
-    messages.info(request, f"You travel {direction}.")
+    if stopped != "town":
+        if taken == 1:
+            messages.info(request, f"You travel {direction}.")
+        elif taken > 1:
+            messages.info(request, f"You travel {taken} tiles {direction}.")
+        if stopped == "edge":
+            messages.info(request, f"You can go no further {direction} — the world ends here.")
     if left_behind:
         messages.info(request, f"You leave the {left_behind} behind.")
     return play_response(request, character)
@@ -247,6 +285,7 @@ def _start_encounter(character, control, request):
     character.current_action = Action.FIGHTING
     character.current_monster = monster
     character.current_monster_hp = hp
+    character.current_monster_max_hp = hp
     character.current_monster_sleep = 0
     character.current_monster_immune = monster.immune
     character.uber_damage = 0
@@ -503,6 +542,56 @@ def forum_reply(request, thread_id):
     return redirect("forum_thread", thread_id=thread.id)
 
 
+# ── map ─────────────────────────────────────────────────────────────────────
+MAP_RADIUS = 4   # 9x9 window around the player
+
+
+def mark_visited(character):
+    """Record the tile the character is standing on (no-op if already seen)."""
+    VisitedTile.objects.get_or_create(
+        character=character, latitude=character.latitude, longitude=character.longitude
+    )
+
+
+def build_minimap(character):
+    """A 9x9 grid centred on the player. Towns show only on tiles already explored,
+    so the world is genuinely discovered rather than handed over."""
+    lat, lon = character.latitude, character.longitude
+    lat_lo, lat_hi = lat - MAP_RADIUS, lat + MAP_RADIUS
+    lon_lo, lon_hi = lon - MAP_RADIUS, lon + MAP_RADIUS
+
+    seen = set(
+        VisitedTile.objects.filter(
+            character=character,
+            latitude__gte=lat_lo, latitude__lte=lat_hi,
+            longitude__gte=lon_lo, longitude__lte=lon_hi,
+        ).values_list("latitude", "longitude")
+    )
+    towns = {
+        (t.latitude, t.longitude): t
+        for t in Town.objects.filter(
+            latitude__gte=lat_lo, latitude__lte=lat_hi,
+            longitude__gte=lon_lo, longitude__lte=lon_hi,
+        )
+    }
+
+    rows = []
+    for y in range(lat_hi, lat_lo - 1, -1):          # north at the top
+        row = []
+        for x in range(lon_lo, lon_hi + 1):
+            town = towns.get((y, x))
+            visited = (y, x) in seen
+            here = (y == lat and x == lon)
+            row.append({
+                "here": here,
+                "visited": visited,
+                "town": town if (town and (visited or here)) else None,
+                "lat": y, "lon": x,
+            })
+        rows.append(row)
+    return rows
+
+
 # ── battle log (session-backed: transient narration, no schema change) ──────
 LOG_KEY = "combat_log"
 LOG_MAX = 14
@@ -540,25 +629,151 @@ def play_context(request, character):
         "spells": character.known_spells.all() if in_fight else None,
         "next_exp": next_tier.exp_required if next_tier else None,
         "current_town": _current_town(character),
+        "minimap": build_minimap(character),
         "combat_log": request.session.get(LOG_KEY, []),
         # the current round's beats, surfaced at the top of the panel
         "recent_events": request.session.get(LOG_KEY, [])[-2:],
     }
 
 
+def travel_options(character):
+    """Towns you can fast-travel to, and maps you could still buy."""
+    town = _current_town(character)
+    if town is None:
+        return {"travel_towns": [], "buyable_maps": []}
+    known_ids = set(character.unlocked_towns.values_list("id", flat=True))
+    travel = []
+    for t in Town.objects.filter(id__in=known_ids).exclude(id=town.id).order_by("travel_points"):
+        t.affordable = character.current_tp >= t.travel_points
+        travel.append(t)
+    buyable = []
+    for t in Town.objects.exclude(id__in=known_ids).order_by("map_price"):
+        t.affordable = character.gold >= t.map_price
+        buyable.append(t)
+    return {"travel_towns": travel, "buyable_maps": buyable}
+
+
 def play_response(request, character):
     """Response for a state-changing action: HTMX gets the updated panel,
     everyone else gets a redirect (POST-redirect-GET keeps refresh safe)."""
     if is_htmx(request):
-        return render(request, "game/_panel.html", play_context(request, character))
+        return render(request, "game/_panel.html", play_context_full(request, character))
     return redirect("home")
+
+
+def play_context_full(request, character):
+    ctx = play_context(request, character)
+    ctx.update(travel_options(character))
+    return ctx
 
 
 def render_play(request, character):
     """HTMX request -> just the panel fragment. Otherwise -> the full page.
     Views can therefore return this instead of redirecting."""
-    ctx = play_context(request, character)
+    ctx = play_context_full(request, character)
     if is_htmx(request):
         return render(request, "game/_panel.html", ctx)
     template = "game/fight.html" if ctx["in_fight"] else "game/status.html"
+    return render(request, template, ctx)
+
+
+# ── fast travel & maps ──────────────────────────────────────────────────────
+@login_required
+@require_POST
+def travel(request, town_id):
+    """Fast-travel between towns you've unlocked, paying the destination's TP cost."""
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    if _current_town(character) is None:
+        messages.info(request, "You can only set out on a journey from a town.")
+        return play_response(request, character)
+
+    town = character.unlocked_towns.filter(id=town_id).first()
+    if town is None:
+        messages.info(request, "You don't have the map to that town.")
+        return play_response(request, character)
+    if character.current_tp < town.travel_points:
+        messages.info(request, f"You need {town.travel_points} TP to travel to {town.name}.")
+        return play_response(request, character)
+
+    character.current_tp -= town.travel_points
+    character.latitude = town.latitude
+    character.longitude = town.longitude
+    character.current_action = Action.IN_TOWN
+    character.save()
+    mark_visited(character)
+    log_clear(request)
+    messages.success(request, f"You journey to {town.name}.  (-{town.travel_points} TP)")
+    return play_response(request, character)
+
+
+@login_required
+@require_POST
+def buy_map(request, town_id):
+    """Buy the map to a town you haven't found yet — unlocks travel to it."""
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    if _current_town(character) is None:
+        return play_response(request, character)
+
+    town = Town.objects.filter(id=town_id).first()
+    if town is None or character.unlocked_towns.filter(id=town.id).exists():
+        return play_response(request, character)
+    if character.gold < town.map_price:
+        messages.info(request, f"The map to {town.name} costs {town.map_price} gold.")
+        return play_response(request, character)
+
+    character.gold -= town.map_price
+    character.save()
+    character.unlocked_towns.add(town)
+    messages.success(request, f"You buy the map to {town.name}.  (-{town.map_price} gold)")
+    return play_response(request, character)
+
+
+# ── full world map ──────────────────────────────────────────────────────────
+MAP_TILE_LIMIT = 20000   # plenty for a well-travelled character
+
+
+@login_required
+def world_map(request):
+    """Everything this character has explored, drawn as a scalable SVG.
+    Screen coordinates flip latitude (y grows downward in SVG, north is up)."""
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+
+    tiles = list(
+        VisitedTile.objects.filter(character=character)
+        .values_list("longitude", "latitude")[:MAP_TILE_LIMIT]
+    )
+    towns = list(character.unlocked_towns.all())
+
+    xs = [t[0] for t in tiles] + [t.longitude for t in towns] + [character.longitude]
+    ys = [t[1] for t in tiles] + [t.latitude for t in towns] + [character.latitude]
+    pad = 3
+    min_x, max_x = min(xs) - pad, max(xs) + pad
+    min_y, max_y = min(ys) - pad, max(ys) + pad
+    width = max(1, max_x - min_x + 1)
+    height = max(1, max_y - min_y + 1)
+
+    # SVG y axis points down, so flip latitude and use the top edge as the origin.
+    label = max(2.0, max(width, height) / 30.0)
+    ctx = {
+        "character": character,
+        "tiles": [{"x": x, "y": -y} for x, y in tiles],
+        "towns": [
+            {"x": t.longitude, "y": -t.latitude, "name": t.name,
+             "here": t.latitude == character.latitude and t.longitude == character.longitude}
+            for t in towns
+        ],
+        "player": {"x": character.longitude + 0.5, "y": -character.latitude + 0.5},
+        "viewbox": f"{min_x} {-max_y} {width} {height}",
+        "label_size": round(label, 2),
+        "marker_r": round(label * 0.45, 2),
+        "tile_count": len(tiles),
+        "town_count": len(towns),
+    }
+    template = "game/_map_panel.html" if is_htmx(request) else "game/map.html"
     return render(request, template, ctx)

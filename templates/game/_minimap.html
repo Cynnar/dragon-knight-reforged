@@ -1,0 +1,16 @@
+{% comment %}9x9 window on the world, north at the top. Towns appear only on
+tiles you've already explored.{% endcomment %}
+<div class="minimap" aria-label="Local map">
+  {% for row in minimap %}
+    <div class="map-row">
+      {% for cell in row %}
+        <div class="cell{% if cell.visited %} seen{% endif %}{% if cell.town %} town{% endif %}{% if cell.here %} here{% endif %}"
+             title="{{ cell.lat }}, {{ cell.lon }}{% if cell.town %} — {{ cell.town.name }}{% endif %}">
+          {% if cell.here %}<span class="you">◆</span>
+          {% elif cell.town %}<span class="tmark">⌂</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>

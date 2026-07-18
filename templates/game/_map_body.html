@@ -1,0 +1,34 @@
+<div class="panel">
+  <h1>World Map</h1>
+  <p class="muted">{{ tile_count }} tile{{ tile_count|pluralize }} explored ·
+     {{ town_count }} town{{ town_count|pluralize }} known ·
+     you are at {{ character.latitude }}, {{ character.longitude }}</p>
+</div>
+
+<div class="panel">
+  <div class="worldmap-wrap">
+    <svg class="worldmap" viewBox="{{ viewbox }}" preserveAspectRatio="xMidYMid meet"
+         role="img" aria-label="Map of explored territory">
+      <g class="tiles">
+        {% for t in tiles %}<rect x="{{ t.x }}" y="{{ t.y }}" width="1" height="1"/>{% endfor %}
+      </g>
+      <g class="towns">
+        {% for t in towns %}
+          <circle cx="{{ t.x }}" cy="{{ t.y }}" r="{{ marker_r }}"/>
+          <text x="{{ t.x }}" y="{{ t.y }}" dy="-{{ marker_r }}"
+                font-size="{{ label_size }}">{{ t.name }}</text>
+        {% endfor %}
+      </g>
+      <circle class="player" cx="{{ player.x }}" cy="{{ player.y }}" r="{{ marker_r }}"/>
+    </svg>
+  </div>
+  <p class="muted map-legend">
+    <span class="key tile"></span> explored
+    <span class="key town"></span> town
+    <span class="key you"></span> you
+  </p>
+  <p style="margin-top:.75rem">
+    <a href="{% url 'home' %}" hx-get="{% url 'home' %}" hx-target="#game-panel"
+       hx-swap="innerHTML" hx-push-url="true" hx-indicator="#game-panel">← Back to your journey</a>
+  </p>
+</div>

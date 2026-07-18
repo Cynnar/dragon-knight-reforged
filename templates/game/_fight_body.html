@@ -7,8 +7,8 @@
 
   <div class="vitals">
     <div class="vital">
-      <div class="vital-head"><span>Enemy HP</span><span class="v">{{ character.current_monster_hp }}</span></div>
-      <div class="bar"><div class="bar-fill enemy" style="width:100%"></div></div>
+      <div class="vital-head"><span>Enemy HP</span><span class="v">{{ character.current_monster_hp }}{% if character.current_monster_max_hp %}/{{ character.current_monster_max_hp }}{% endif %}</span></div>
+      <div class="bar"><div class="bar-fill enemy" style="width:{% if character.current_monster_max_hp %}{% widthratio character.current_monster_hp character.current_monster_max_hp 100 %}{% else %}100{% endif %}%"></div></div>
     </div>
     <div class="vital">
       <div class="vital-head"><span>Your HP</span><span class="v">{{ character.current_hp }}/{{ character.max_hp }}</span></div>

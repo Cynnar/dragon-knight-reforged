@@ -22,6 +22,8 @@
 </div>
 {% endif %}
 
+{% include "game/_travel.html" %}
+
 {% if character.pending_drop %}
 <div class="panel">
   <h2>Loot!</h2>
@@ -35,20 +37,33 @@
 
 <div class="panel">
   <h2>Explore</h2>
+  {% include "game/_minimap.html" %}
+  <div class="steps-row">
+    <label for="steps">Travel</label>
+    <select id="steps" name="steps">
+      <option value="1">1 tile</option>
+      <option value="3">3 tiles</option>
+      <option value="5">5 tiles</option>
+      <option value="10">10 tiles</option>
+    </select>
+    <a href="{% url 'world_map' %}" class="map-link"
+       hx-get="{% url 'world_map' %}" hx-target="#game-panel" hx-swap="innerHTML"
+       hx-push-url="true" hx-indicator="#game-panel">Full map →</a>
+  </div>
   <div class="compass">
     <form method="post" action="{% url 'move' 'north' %}" class="c-n"
           hx-post="{% url 'move' 'north' %}" hx-target="#game-panel" hx-swap="innerHTML"
-          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}<button class="btn dir">N</button></form>
+          hx-indicator="#game-panel" hx-disabled-elt="find button" hx-include="#steps">{% csrf_token %}<button class="btn dir">N</button></form>
     <form method="post" action="{% url 'move' 'west' %}" class="c-w"
           hx-post="{% url 'move' 'west' %}" hx-target="#game-panel" hx-swap="innerHTML"
-          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}<button class="btn dir">W</button></form>
+          hx-indicator="#game-panel" hx-disabled-elt="find button" hx-include="#steps">{% csrf_token %}<button class="btn dir">W</button></form>
     <div class="c-c">{{ character.latitude }}, {{ character.longitude }}</div>
     <form method="post" action="{% url 'move' 'east' %}" class="c-e"
           hx-post="{% url 'move' 'east' %}" hx-target="#game-panel" hx-swap="innerHTML"
-          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}<button class="btn dir">E</button></form>
+          hx-indicator="#game-panel" hx-disabled-elt="find button" hx-include="#steps">{% csrf_token %}<button class="btn dir">E</button></form>
     <form method="post" action="{% url 'move' 'south' %}" class="c-s"
           hx-post="{% url 'move' 'south' %}" hx-target="#game-panel" hx-swap="innerHTML"
-          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}<button class="btn dir">S</button></form>
+          hx-indicator="#game-panel" hx-disabled-elt="find button" hx-include="#steps">{% csrf_token %}<button class="btn dir">S</button></form>
   </div>
 </div>
 

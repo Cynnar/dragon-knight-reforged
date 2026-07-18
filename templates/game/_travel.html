@@ -1,0 +1,50 @@
+{% if travel_towns or buyable_maps %}
+<div class="panel">
+  <h2>Journeys</h2>
+  <p class="muted">Travel Points: <strong>{{ character.current_tp }}/{{ character.max_tp }}</strong>
+     <span class="muted">· resting at an inn restores them</span></p>
+
+  {% if travel_towns %}
+  <div class="travel-list">
+    {% for t in travel_towns %}
+    <form method="post" action="{% url 'travel' t.id %}" class="travel-row"
+          hx-post="{% url 'travel' t.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">
+      {% csrf_token %}
+      <div class="travel-info">
+        <strong>{{ t.name }}</strong>
+        <span class="muted">{{ t.latitude }}, {{ t.longitude }}</span>
+      </div>
+      <div class="travel-go">
+        <span class="muted">{{ t.travel_points }} TP</span>
+        <button class="btn" type="submit" {% if not t.affordable %}disabled{% endif %}>Travel</button>
+      </div>
+    </form>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">You know of no other towns yet. Explore, or buy a map below.</p>
+  {% endif %}
+
+  {% if buyable_maps %}
+  <h3>Maps for sale</h3>
+  <div class="travel-list">
+    {% for t in buyable_maps %}
+    <form method="post" action="{% url 'buy_map' t.id %}" class="travel-row"
+          hx-post="{% url 'buy_map' t.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">
+      {% csrf_token %}
+      <div class="travel-info">
+        <strong>Map to {{ t.name }}</strong>
+        <span class="muted">unlocks travel · {{ t.travel_points }} TP per trip</span>
+      </div>
+      <div class="travel-go">
+        <span class="muted">{{ t.map_price }}g</span>
+        <button class="btn btn-secondary" type="submit" {% if not t.affordable %}disabled{% endif %}>Buy</button>
+      </div>
+    </form>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endif %}

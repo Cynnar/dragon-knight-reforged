@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Forum — Dragon Knight{% endblock %}
+{% block content %}
+<div class="panel">
+  <h1>Forum</h1>
+  <div class="actions">
+    <a class="btn" href="{% url 'forum_new' %}">Start a new thread</a>
+  </div>
+</div>
+
+<div class="panel">
+  {% if threads %}
+  <div class="thread-list">
+    {% for t in threads %}
+    <a class="thread-row" href="{% url 'forum_thread' t.id %}">
+      <div class="thread-main">
+        <strong>{{ t.title }}</strong>
+        <span class="muted">by {{ t.display_name }}</span>
+      </div>
+      <div class="thread-meta muted">
+        {{ t.reply_count }} repl{{ t.reply_count|pluralize:"y,ies" }} · {{ t.last_reply_at|date:"M j, g:i a" }}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">No threads yet. Start the first one!</p>
+  {% endif %}
+</div>
+{% endblock %}

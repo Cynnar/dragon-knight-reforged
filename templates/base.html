@@ -116,6 +116,22 @@
       border-bottom: 1px solid var(--panel-border); padding-bottom: .5rem; }
     .babble-time { font-size: .75rem; }
     .news-item { border-bottom: 1px solid var(--panel-border); padding-bottom: .6rem; margin-bottom: .6rem; }
+    .online-list { display: flex; flex-direction: column; gap: .5rem; }
+    .online-row { display: flex; justify-content: space-between; gap: .75rem;
+      border-bottom: 1px solid var(--panel-border); padding-bottom: .45rem; }
+    textarea { width: 100%; padding: .6rem .7rem; font-size: 1rem; font-family: inherit;
+      background: #14110f; color: var(--text); border: 1px solid var(--panel-border);
+      border-radius: 8px; resize: vertical; }
+    textarea:focus { outline: none; border-color: var(--accent); }
+    .thread-list { display: flex; flex-direction: column; }
+    .thread-row { display: flex; flex-direction: column; gap: .2rem; padding: .7rem 0;
+      border-bottom: 1px solid var(--panel-border); color: var(--text); }
+    .thread-row:hover { text-decoration: none; }
+    .thread-row:hover strong { color: var(--accent); }
+    .thread-meta { font-size: .8rem; }
+    .post { border-bottom: 1px solid var(--panel-border); padding: .6rem 0; }
+    .post.reply { padding-left: .75rem; border-left: 2px solid var(--panel-border); }
+    .post-head { display: flex; justify-content: space-between; gap: .5rem; margin-bottom: .3rem; font-size: .9rem; }
     @media (min-width: 640px) {
       .site-header { padding: 1rem 1.5rem; }
       .content { padding: 1.5rem; }
@@ -133,6 +149,8 @@
         {% block nav %}
           {% if user.is_authenticated %}
             <a href="{% url 'tavern' %}">Tavern</a>
+            <a href="{% url 'forum_index' %}">Forum</a>
+            <a href="{% url 'whos_online' %}">Online</a>
             <span class="muted">{{ user.username }}</span>
             <form method="post" action="{% url 'logout' %}" class="logout-form">
               {% csrf_token %}

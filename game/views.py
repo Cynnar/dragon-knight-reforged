@@ -1,10 +1,13 @@
 import math
 import random
+from datetime import timedelta
 
 from django.contrib import messages
+from django.utils import timezone
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.db.models import Count
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from . import combat, shop
@@ -419,3 +422,71 @@ def post_babble(request):
     if text:
         BabbleMessage.objects.create(author=request.user, message=text)
     return redirect("tavern")
+
+
+@login_required
+def whos_online(request):
+    """Characters active within the last 10 minutes (matches the original window)."""
+    cutoff = timezone.now() - timedelta(minutes=10)
+    online = Character.objects.filter(last_active__gte=cutoff).order_by("char_name")
+    return render(request, "game/online.html", {"online": online, "count": online.count()})
+
+
+# ── forum ────────────────────────────────────────────────────────────────────
+def _attach_author_names(posts):
+    """Attach .display_name (character name, else username) to each post."""
+    ids = [p.author_id for p in posts if p.author_id]
+    names = dict(Character.objects.filter(user__in=ids).values_list("user_id", "char_name"))
+    for p in posts:
+        p.display_name = names.get(p.author_id) or (p.author.username if p.author_id else "Unknown")
+    return posts
+
+
+@login_required
+def forum_index(request):
+    from .models import ForumPost
+    threads = list(
+        ForumPost.objects.filter(parent__isnull=True)
+        .select_related("author")
+        .annotate(reply_count=Count("replies"))
+        .order_by("-last_reply_at")[:30]
+    )
+    _attach_author_names(threads)
+    return render(request, "game/forum/index.html", {"threads": threads})
+
+
+@login_required
+def forum_thread(request, thread_id):
+    from .models import ForumPost
+    thread = get_object_or_404(ForumPost, id=thread_id, parent__isnull=True)
+    replies = list(thread.replies.select_related("author").order_by("posted_at"))
+    _attach_author_names([thread] + replies)
+    return render(request, "game/forum/thread.html", {"thread": thread, "replies": replies})
+
+
+@login_required
+def forum_new(request):
+    from .models import ForumPost
+    if request.method == "POST":
+        title = (request.POST.get("title") or "").strip()[:100]
+        content = (request.POST.get("content") or "").strip()
+        if title and content:
+            thread = ForumPost.objects.create(author=request.user, parent=None,
+                                              title=title, content=content)
+            return redirect("forum_thread", thread_id=thread.id)
+        messages.info(request, "A thread needs both a title and a message.")
+    return render(request, "game/forum/new.html")
+
+
+@login_required
+@require_POST
+def forum_reply(request, thread_id):
+    from .models import ForumPost
+    thread = get_object_or_404(ForumPost, id=thread_id, parent__isnull=True)
+    content = (request.POST.get("content") or "").strip()
+    if content:
+        ForumPost.objects.create(author=request.user, parent=thread,
+                                 title=f"Re: {thread.title}", content=content)
+        thread.last_reply_at = timezone.now()
+        thread.save(update_fields=["last_reply_at"])
+    return redirect("forum_thread", thread_id=thread.id)

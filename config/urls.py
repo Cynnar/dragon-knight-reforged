@@ -19,5 +19,10 @@ urlpatterns = [
     path("drop/leave/", views.drop_leave, name="drop_leave"),
     path("tavern/", views.tavern, name="tavern"),
     path("tavern/babble/", views.post_babble, name="post_babble"),
+    path("online/", views.whos_online, name="whos_online"),
+    path("forum/", views.forum_index, name="forum_index"),
+    path("forum/new/", views.forum_new, name="forum_new"),
+    path("forum/<int:thread_id>/", views.forum_thread, name="forum_thread"),
+    path("forum/<int:thread_id>/reply/", views.forum_reply, name="forum_reply"),
     path("", views.home, name="home"),
 ]

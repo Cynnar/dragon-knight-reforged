@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ thread.title }} — Forum{% endblock %}
+{% block content %}
+<div class="panel">
+  <p><a href="{% url 'forum_index' %}">← Forum</a></p>
+  <h1>{{ thread.title }}</h1>
+</div>
+
+<div class="panel">
+  <div class="post">
+    <div class="post-head"><strong>{{ thread.display_name }}</strong>
+      <span class="muted">{{ thread.posted_at|date:"M j, Y, g:i a" }}</span></div>
+    <div class="post-body">{{ thread.content|linebreaksbr }}</div>
+  </div>
+  {% for r in replies %}
+  <div class="post reply">
+    <div class="post-head"><strong>{{ r.display_name }}</strong>
+      <span class="muted">{{ r.posted_at|date:"M j, Y, g:i a" }}</span></div>
+    <div class="post-body">{{ r.content|linebreaksbr }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="panel">
+  <h2>Reply</h2>
+  <form method="post" action="{% url 'forum_reply' thread.id %}">
+    {% csrf_token %}
+    <textarea name="content" rows="5" placeholder="Write a reply..."></textarea>
+    <div class="actions" style="margin-top:.6rem">
+      <button class="btn" type="submit">Post reply</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

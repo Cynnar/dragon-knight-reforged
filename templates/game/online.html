@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Who's Online — Dragon Knight{% endblock %}
+
+{% block content %}
+<div class="panel">
+  <h1>Who's Online</h1>
+  <p class="muted">{{ count }} adventurer{{ count|pluralize }} active in the last 10 minutes.</p>
+  {% if online %}
+  <div class="online-list">
+    {% for ch in online %}
+      <div class="online-row">
+        <strong>{{ ch.char_name }}</strong>
+        <span class="muted">Level {{ ch.level }} {{ ch.get_char_class_display }}</span>
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">No one is around right now.</p>
+  {% endif %}
+</div>
+{% endblock %}

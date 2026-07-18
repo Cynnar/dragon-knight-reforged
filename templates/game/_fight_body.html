@@ -1,0 +1,62 @@
+{% include "game/_headline.html" %}
+
+{% comment %}Battle screen body. Rendered full-page and as an HTMX fragment.{% endcomment %}
+<div class="panel">
+  <h1>Battle</h1>
+  <p>You face a <strong>{{ monster.name }}</strong> <span class="muted">(level {{ monster.level }})</span>.</p>
+
+  <div class="vitals">
+    <div class="vital">
+      <div class="vital-head"><span>Enemy HP</span><span class="v">{{ character.current_monster_hp }}</span></div>
+      <div class="bar"><div class="bar-fill enemy" style="width:100%"></div></div>
+    </div>
+    <div class="vital">
+      <div class="vital-head"><span>Your HP</span><span class="v">{{ character.current_hp }}/{{ character.max_hp }}</span></div>
+      <div class="bar"><div class="bar-fill hp" style="width:{% widthratio character.current_hp character.max_hp 100 %}%"></div></div>
+    </div>
+    {% if character.max_mp %}
+    <div class="vital">
+      <div class="vital-head"><span>Your MP</span><span class="v">{{ character.current_mp }}/{{ character.max_mp }}</span></div>
+      <div class="bar"><div class="bar-fill mp" style="width:{% widthratio character.current_mp character.max_mp 100 %}%"></div></div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="panel">
+  <div class="actions">
+    <form method="post" action="{% url 'fight_action' 'attack' %}"
+          hx-post="{% url 'fight_action' 'attack' %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">
+      {% csrf_token %}<button class="btn" type="submit">Attack</button>
+    </form>
+    <form method="post" action="{% url 'fight_action' 'run' %}"
+          hx-post="{% url 'fight_action' 'run' %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">
+      {% csrf_token %}<button class="btn btn-secondary" type="submit">Run</button>
+    </form>
+  </div>
+</div>
+
+{% if spells %}
+<div class="panel">
+  <h2>Spells</h2>
+  <div class="spell-list">
+    {% for spell in spells %}
+      <form method="post" action="{% url 'cast_spell' %}" class="spell-row"
+            hx-post="{% url 'cast_spell' %}" hx-target="#game-panel" hx-swap="innerHTML"
+            hx-indicator="#game-panel" hx-disabled-elt="find button">
+        {% csrf_token %}
+        <input type="hidden" name="spell_id" value="{{ spell.id }}">
+        <button class="btn btn-secondary" type="submit"
+                {% if character.current_mp < spell.mp_cost %}disabled{% endif %}>
+          {{ spell.name }}
+        </button>
+        <span class="spell-meta muted">{{ spell.get_effect_display }} · {{ spell.mp_cost }} MP</span>
+      </form>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% include "game/_battle_log.html" %}

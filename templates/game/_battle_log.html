@@ -1,0 +1,8 @@
+{% if combat_log %}
+<div class="panel">
+  <h2>Battle log</h2>
+  <div class="log">
+    {% for line in combat_log|slice:"-8:" %}<div class="log-line">{{ line }}</div>{% endfor %}
+  </div>
+</div>
+{% endif %}

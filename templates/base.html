@@ -131,6 +131,29 @@
     .thread-meta { font-size: .8rem; }
     .post { border-bottom: 1px solid var(--panel-border); padding: .6rem 0; }
     .post.reply { padding-left: .75rem; border-left: 2px solid var(--panel-border); }
+    /* Latest-event headline (top of panel, so no scrolling needed on mobile) */
+    .headline { background: linear-gradient(180deg,#241f1b,#1c1815);
+      border: 1px solid var(--panel-border); border-left: 4px solid var(--accent);
+      border-radius: 10px; padding: .7rem .9rem; margin-bottom: 1rem; }
+    .headline-line { color: var(--muted); font-size: .95rem; }
+    .headline-line.latest { color: var(--text); font-size: 1.05rem; font-weight: 600; }
+    /* Vitals bars */
+    .vitals { display: flex; flex-direction: column; gap: .6rem; }
+    .vital-head { display: flex; justify-content: space-between; font-size: .9rem; color: var(--muted); }
+    .vital-head .v { color: var(--text); font-weight: 600; }
+    .bar { height: 10px; background: #100e0c; border: 1px solid var(--panel-border);
+      border-radius: 999px; overflow: hidden; margin-top: .25rem; }
+    .bar-fill { height: 100%; max-width: 100%; transition: width .2s; }
+    .bar-fill.hp { background: linear-gradient(90deg, #6fa06f, #8fc08f); }
+    .bar-fill.mp { background: linear-gradient(90deg, #4f7fa8, #6fa5c8); }
+    .bar-fill.enemy { background: linear-gradient(90deg, #a8443a, #c8553d); }
+    /* Battle log */
+    .log { display: flex; flex-direction: column; gap: .3rem; font-size: .9rem; }
+    .log-line { border-bottom: 1px solid var(--panel-border); padding-bottom: .3rem; }
+    .log-line:last-child { border-bottom: none; color: var(--accent); }
+    /* HTMX: dim + lock the panel while a request is in flight */
+    #game-panel.htmx-request { opacity: .6; transition: opacity .1s; }
+    .btn[disabled] { opacity: .5; }
     .post-head { display: flex; justify-content: space-between; gap: .5rem; margin-bottom: .3rem; font-size: .9rem; }
     @media (min-width: 640px) {
       .site-header { padding: 1rem 1.5rem; }
@@ -163,7 +186,7 @@
         {% endblock %}
       </nav>
     </header>
-    <main class="content">
+    <main class="content" id="game-panel">
       {% if messages %}
         <div class="messages">
           {% for message in messages %}
@@ -177,5 +200,6 @@
       {% block footer %}Dragon Knight — Reforged{% endblock %}
     </footer>
   </div>
+  <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
 </body>
 </html>

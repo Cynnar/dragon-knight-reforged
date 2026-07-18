@@ -1,0 +1,9 @@
+{% comment %}Latest combat beat, shown at the very top so mobile players get
+feedback without scrolling to the battle log.{% endcomment %}
+{% if recent_events %}
+<div class="headline">
+  {% for line in recent_events %}
+    <div class="headline-line{% if forloop.last %} latest{% endif %}">{{ line }}</div>
+  {% endfor %}
+</div>
+{% endif %}

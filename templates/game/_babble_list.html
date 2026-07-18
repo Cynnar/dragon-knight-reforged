@@ -1,0 +1,12 @@
+{% comment %}Polled every 15s so other players' babbles appear without a refresh.{% endcomment %}
+<div class="babble-list" id="babble-list"
+     hx-get="{% url 'babble_list' %}" hx-trigger="every 15s" hx-swap="outerHTML">
+  {% for b in babbles %}
+    <div class="babble">
+      <div><strong>{{ b.display_name }}</strong> <span>{{ b.message }}</span></div>
+      <span class="muted babble-time">{{ b.posted_at|date:"M j, g:i a" }}</span>
+    </div>
+  {% empty %}
+    <p class="muted">No babbles yet. Be the first to speak!</p>
+  {% endfor %}
+</div>

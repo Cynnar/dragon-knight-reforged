@@ -19,6 +19,7 @@ urlpatterns = [
     path("drop/leave/", views.drop_leave, name="drop_leave"),
     path("tavern/", views.tavern, name="tavern"),
     path("tavern/babble/", views.post_babble, name="post_babble"),
+    path("tavern/babbles/", views.babble_list, name="babble_list"),
     path("online/", views.whos_online, name="whos_online"),
     path("forum/", views.forum_index, name="forum_index"),
     path("forum/new/", views.forum_new, name="forum_new"),

@@ -23,22 +23,7 @@ def home(request):
         character = request.user.character
     except Character.DoesNotExist:
         return redirect("create_character")
-
-    if character.current_action == Action.FIGHTING and character.current_monster_id:
-        return render(request, "game/fight.html", {
-            "character": character,
-            "monster": character.current_monster,
-            "spells": character.known_spells.all(),
-        })
-
-    next_tier = LevelTier.objects.filter(
-        char_class=character.char_class, level=character.level + 1
-    ).first()
-    return render(request, "game/status.html", {
-        "character": character,
-        "next_exp": next_tier.exp_required if next_tier else None,
-        "current_town": _current_town(character),
-    })
+    return render_play(request, character)
 
 
 def signup(request):
@@ -87,7 +72,9 @@ def move(request, direction):
         return redirect("home")
     if character.current_action == Action.FIGHTING:
         messages.info(request, "You can't wander off in the middle of a battle!")
-        return redirect("home")
+        return play_response(request, character)
+
+    log_clear(request)
 
     left_behind = None
     if character.pending_drop_id:
@@ -107,18 +94,18 @@ def move(request, direction):
         character.current_action = Action.IN_TOWN
         character.save()
         messages.info(request, f"You arrive at {town.name}.")
-        return redirect("home")
+        return play_response(request, character)
 
     character.current_action = Action.EXPLORING
     if random.randint(1, 5) == 1 and _start_encounter(character, control, request):
         character.save()
-        return redirect("home")
+        return play_response(request, character)
 
     character.save()
     messages.info(request, f"You travel {direction}.")
     if left_behind:
         messages.info(request, f"You leave the {left_behind} behind.")
-    return redirect("home")
+    return play_response(request, character)
 
 
 # ── combat ───────────────────────────────────────────────────────────────────
@@ -136,18 +123,18 @@ def fight_action(request, action):
             combat.clear_fight(character)
             character.current_action = Action.EXPLORING
             character.save()
-            messages.info(request, "You slip away from the battle.")
-            return redirect("home")
-        messages.info(request, "You try to flee, but the monster blocks your path!")
+            log(request, "You slip away from the battle.")
+            return play_response(request, character)
+        log(request, "You try to flee, but the monster blocks your path!")
 
     elif action == "attack":
         res = combat.player_attack(character, monster)
         if res["dodged"]:
-            messages.info(request, f"The {monster.name} dodges your attack.")
+            log(request, f"The {monster.name} dodges your attack.")
         else:
             character.current_monster_hp -= res["damage"]
             prefix = "Excellent hit! " if res["excellent"] else ""
-            messages.info(request, f"{prefix}You hit the {monster.name} for {res['damage']} damage.")
+            log(request, f"{prefix}You hit the {monster.name} for {res['damage']} damage.")
         if character.current_monster_hp <= 0:
             return _victory(request, character, monster, mod)
 
@@ -169,12 +156,12 @@ def cast_spell(request):
     spell = character.known_spells.filter(id=request.POST.get("spell_id")).first()
     if spell is None:
         messages.info(request, "You haven't learned that spell.")
-        return redirect("home")
+        return play_response(request, character)
     if character.current_mp < spell.mp_cost:
         messages.info(request, "You don't have enough MP for that spell.")
-        return redirect("home")
+        return play_response(request, character)
 
-    messages.info(request, combat.cast_spell(character, monster, spell))
+    log(request, combat.cast_spell(character, monster, spell))
     if character.current_monster_hp <= 0:
         return _victory(request, character, monster, mod)
 
@@ -199,25 +186,25 @@ def _finish_round(request, character, monster, mod):
     """Resolve the monster's turn (honoring sleep), then save or handle death."""
     status = combat.wake_check(character)
     if status == "woke":
-        messages.info(request, f"The {monster.name} wakes up.")
+        log(request, f"The {monster.name} wakes up.")
     elif status == "asleep":
-        messages.info(request, f"The {monster.name} sleeps on.")
+        log(request, f"The {monster.name} sleeps on.")
     else:
         res = combat.monster_attack(character, monster, mod)
         if res["dodged"]:
-            messages.info(request, f"You dodge the {monster.name}'s attack.")
+            log(request, f"You dodge the {monster.name}'s attack.")
         else:
             character.current_hp -= res["damage"]
-            messages.info(request, f"The {monster.name} hits you for {res['damage']} damage.")
+            log(request, f"The {monster.name} hits you for {res['damage']} damage.")
 
     if character.current_hp <= 0:
         combat.apply_death(character)
         character.save()
-        messages.error(request, "You have fallen. You wake in town, weakened and half your gold gone.")
-        return redirect("home")
+        log(request, "You have fallen. You wake in town, weakened and half your gold gone.")
+        return play_response(request, character)
 
     character.save()
-    return redirect("home")
+    return play_response(request, character)
 
 
 def _victory(request, character, monster, mod):
@@ -234,15 +221,15 @@ def _victory(request, character, monster, mod):
         if dropped:
             character.pending_drop = dropped
     character.save()
-    messages.success(request, f"You defeated the {name}!  +{exp} EXP, +{gold} gold.")
+    log(request, f"You defeated the {name}!  +{exp} EXP, +{gold} gold.")
     if leveled:
         if spell:
-            messages.success(request, f"You reached level {character.level} and learned {spell}!")
+            log(request, f"You reached level {character.level} and learned {spell}!")
         else:
-            messages.success(request, f"You reached level {character.level}!")
+            log(request, f"You reached level {character.level}!")
     if dropped:
-        messages.success(request, f"The {name} dropped an item: {dropped.name}!")
-    return redirect("home")
+        log(request, f"The {name} dropped an item: {dropped.name}!")
+    return play_response(request, character)
 
 
 def _start_encounter(character, control, request):
@@ -265,18 +252,19 @@ def _start_encounter(character, control, request):
     character.uber_damage = 0
     character.uber_defense = 0
 
+    log_clear(request)
     if combat.player_swings_first(character, monster):
-        messages.warning(request, f"A {monster.name} appears!")
+        log(request, f"A {monster.name} appears!")
     else:
         res = combat.monster_attack(character, monster, combat.difficulty_mod(character, control))
         if res["dodged"]:
-            messages.warning(request, f"A {monster.name} lunges before you're ready — but you dodge!")
+            log(request, f"A {monster.name} lunges before you're ready — but you dodge!")
         else:
             character.current_hp -= res["damage"]
-            messages.warning(request, f"A {monster.name} attacks before you're ready, for {res['damage']} damage!")
+            log(request, f"A {monster.name} attacks before you're ready, for {res['damage']} damage!")
             if character.current_hp <= 0:
                 combat.apply_death(character)
-                messages.error(request, "The blow fells you instantly! You wake in town, half your gold gone.")
+                log(request, "The blow fells you instantly! You wake in town, half your gold gone.")
     return True
 
 
@@ -310,8 +298,9 @@ def inn(request):
     ok, msg = shop.stay_at_inn(character, town)
     if ok:
         character.save()
+        log_clear(request)
     messages.info(request, msg)
-    return redirect("home")
+    return play_response(request, character)
 
 
 @login_required
@@ -323,11 +312,13 @@ def shop_view(request):
     if town is None:
         messages.info(request, "You need to be in a town to shop.")
         return redirect("home")
-    return render(request, "game/shop.html", {
+    ctx = {
         "character": character,
         "town": town,
         "items": town.shop_items.all().order_by("slot", "buy_cost"),
-    })
+    }
+    template = "game/_shop_panel.html" if is_htmx(request) else "game/shop.html"
+    return render(request, template, ctx)
 
 
 @login_required
@@ -347,6 +338,12 @@ def buy_item(request, item_id):
     if ok:
         character.save()
     messages.info(request, msg)
+    if is_htmx(request):
+        return render(request, "game/_shop_panel.html", {
+            "character": character,
+            "town": town,
+            "items": town.shop_items.all().order_by("slot", "buy_cost"),
+        })
     return redirect("shop")
 
 
@@ -402,7 +399,14 @@ def drop_leave(request):
 # ── community: tavern (news + babblebox) ─────────────────────────────────────
 @login_required
 def tavern(request):
-    from .models import BabbleMessage, News
+    from .models import News
+    ctx = _babble_context()
+    ctx["news"] = News.objects.order_by("-posted_at")[:5]
+    return render(request, "game/tavern.html", ctx)
+
+
+def _babble_context():
+    from .models import BabbleMessage
     babbles = list(BabbleMessage.objects.select_related("author").order_by("-posted_at")[:20])
     names = dict(
         Character.objects.filter(user__in=[b.author_id for b in babbles if b.author_id])
@@ -410,8 +414,7 @@ def tavern(request):
     )
     for b in babbles:
         b.display_name = names.get(b.author_id) or (b.author.username if b.author_id else "Unknown")
-    news = News.objects.order_by("-posted_at")[:5]
-    return render(request, "game/tavern.html", {"babbles": babbles, "news": news})
+    return {"babbles": babbles}
 
 
 @login_required
@@ -421,7 +424,15 @@ def post_babble(request):
     text = (request.POST.get("babble") or "").strip()[:120]
     if text:
         BabbleMessage.objects.create(author=request.user, message=text)
+    if is_htmx(request):
+        return render(request, "game/_babble_list.html", _babble_context())
     return redirect("tavern")
+
+
+@login_required
+def babble_list(request):
+    """Just the message list — polled so other players' babbles appear live."""
+    return render(request, "game/_babble_list.html", _babble_context())
 
 
 @login_required
@@ -490,3 +501,64 @@ def forum_reply(request, thread_id):
         thread.last_reply_at = timezone.now()
         thread.save(update_fields=["last_reply_at"])
     return redirect("forum_thread", thread_id=thread.id)
+
+
+# ── battle log (session-backed: transient narration, no schema change) ──────
+LOG_KEY = "combat_log"
+LOG_MAX = 14
+
+
+def log(request, text):
+    """Append a line to the battle log the player sees during/after a fight."""
+    entries = request.session.get(LOG_KEY, [])
+    entries.append(text)
+    request.session[LOG_KEY] = entries[-LOG_MAX:]
+    request.session.modified = True
+
+
+def log_clear(request):
+    if request.session.get(LOG_KEY):
+        request.session[LOG_KEY] = []
+        request.session.modified = True
+
+
+# ── play screen rendering (shared by full pages and HTMX fragments) ──────────
+def is_htmx(request):
+    return request.headers.get("HX-Request") == "true"
+
+
+def play_context(request, character):
+    """Everything the status/fight screens need, in one place."""
+    in_fight = character.current_action == Action.FIGHTING and bool(character.current_monster_id)
+    next_tier = LevelTier.objects.filter(
+        char_class=character.char_class, level=character.level + 1
+    ).first()
+    return {
+        "character": character,
+        "in_fight": in_fight,
+        "monster": character.current_monster if in_fight else None,
+        "spells": character.known_spells.all() if in_fight else None,
+        "next_exp": next_tier.exp_required if next_tier else None,
+        "current_town": _current_town(character),
+        "combat_log": request.session.get(LOG_KEY, []),
+        # the current round's beats, surfaced at the top of the panel
+        "recent_events": request.session.get(LOG_KEY, [])[-2:],
+    }
+
+
+def play_response(request, character):
+    """Response for a state-changing action: HTMX gets the updated panel,
+    everyone else gets a redirect (POST-redirect-GET keeps refresh safe)."""
+    if is_htmx(request):
+        return render(request, "game/_panel.html", play_context(request, character))
+    return redirect("home")
+
+
+def render_play(request, character):
+    """HTMX request -> just the panel fragment. Otherwise -> the full page.
+    Views can therefore return this instead of redirecting."""
+    ctx = play_context(request, character)
+    if is_htmx(request):
+        return render(request, "game/_panel.html", ctx)
+    template = "game/fight.html" if ctx["in_fight"] else "game/status.html"
+    return render(request, template, ctx)

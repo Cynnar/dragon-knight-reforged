@@ -1,0 +1,6 @@
+{% comment %}
+The fragment HTMX swaps into #game-panel: flash messages, then either the battle
+screen or the status screen (each of which leads with the latest-event headline).
+{% endcomment %}
+{% include "game/_messages.html" %}
+{% if in_fight %}{% include "game/_fight_body.html" %}{% else %}{% include "game/_status_body.html" %}{% endif %}

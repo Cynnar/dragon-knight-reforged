@@ -1,0 +1,93 @@
+{% include "game/_headline.html" %}
+
+<div class="panel">
+  <h1>{{ character.char_name }}</h1>
+  <p class="muted">Level {{ character.level }} {{ character.get_char_class_display }}
+     · {{ character.get_difficulty_display }}</p>
+</div>
+
+{% if current_town %}
+<div class="panel">
+  <h2>{{ current_town.name }}</h2>
+  <p class="muted">You're in town. Rest to recover, or visit the shop.</p>
+  <div class="actions">
+    <form method="post" action="{% url 'inn' %}"
+          hx-post="{% url 'inn' %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+      <button class="btn" type="submit">Rest at inn ({{ current_town.inn_price }} gold)</button></form>
+    <a class="btn btn-secondary" href="{% url 'shop' %}"
+       hx-get="{% url 'shop' %}" hx-target="#game-panel" hx-swap="innerHTML"
+       hx-push-url="true" hx-indicator="#game-panel">Visit shop</a>
+  </div>
+</div>
+{% endif %}
+
+{% if character.pending_drop %}
+<div class="panel">
+  <h2>Loot!</h2>
+  <p>A defeated monster dropped <strong>{{ character.pending_drop.name }}</strong>.</p>
+  <div class="actions">
+    <a class="btn" href="{% url 'drop_reveal' %}">Reveal &amp; equip</a>
+  </div>
+  <p class="muted">Move on and you'll leave it behind.</p>
+</div>
+{% endif %}
+
+<div class="panel">
+  <h2>Explore</h2>
+  <div class="compass">
+    <form method="post" action="{% url 'move' 'north' %}" class="c-n"
+          hx-post="{% url 'move' 'north' %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}<button class="btn dir">N</button></form>
+    <form method="post" action="{% url 'move' 'west' %}" class="c-w"
+          hx-post="{% url 'move' 'west' %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}<button class="btn dir">W</button></form>
+    <div class="c-c">{{ character.latitude }}, {{ character.longitude }}</div>
+    <form method="post" action="{% url 'move' 'east' %}" class="c-e"
+          hx-post="{% url 'move' 'east' %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}<button class="btn dir">E</button></form>
+    <form method="post" action="{% url 'move' 'south' %}" class="c-s"
+          hx-post="{% url 'move' 'south' %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}<button class="btn dir">S</button></form>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Status</h2>
+  <div class="vitals">
+    <div class="vital">
+      <div class="vital-head"><span>HP</span><span class="v">{{ character.current_hp }}/{{ character.max_hp }}</span></div>
+      <div class="bar"><div class="bar-fill hp" style="width:{% widthratio character.current_hp character.max_hp 100 %}%"></div></div>
+    </div>
+    {% if character.max_mp %}
+    <div class="vital">
+      <div class="vital-head"><span>MP</span><span class="v">{{ character.current_mp }}/{{ character.max_mp }}</span></div>
+      <div class="bar"><div class="bar-fill mp" style="width:{% widthratio character.current_mp character.max_mp 100 %}%"></div></div>
+    </div>
+    {% endif %}
+  </div>
+  <div class="stat-grid" style="margin-top:.8rem">
+    <div class="stat"><span class="k">TP</span><span class="v">{{ character.current_tp }}/{{ character.max_tp }}</span></div>
+    <div class="stat"><span class="k">Gold</span><span class="v">{{ character.gold }}</span></div>
+    <div class="stat"><span class="k">EXP</span><span class="v">{{ character.experience }}</span></div>
+    <div class="stat"><span class="k">Next lvl</span><span class="v">{% if next_exp %}{{ next_exp }}{% else %}—{% endif %}</span></div>
+    <div class="stat"><span class="k">Strength</span><span class="v">{{ character.strength }}</span></div>
+    <div class="stat"><span class="k">Dexterity</span><span class="v">{{ character.dexterity }}</span></div>
+    <div class="stat"><span class="k">Attack</span><span class="v">{{ character.attack_power }}</span></div>
+    <div class="stat"><span class="k">Defense</span><span class="v">{{ character.defense_power }}</span></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Equipment</h2>
+  <div class="stat-grid">
+    <div class="stat"><span class="k">Weapon</span><span class="v">{{ character.weapon.name|default:"—" }}</span></div>
+    <div class="stat"><span class="k">Armor</span><span class="v">{{ character.armor.name|default:"—" }}</span></div>
+    <div class="stat"><span class="k">Shield</span><span class="v">{{ character.shield.name|default:"—" }}</span></div>
+    <div class="stat"><span class="k">Slot 1</span><span class="v">{{ character.accessory1.name|default:"—" }}</span></div>
+    <div class="stat"><span class="k">Slot 2</span><span class="v">{{ character.accessory2.name|default:"—" }}</span></div>
+    <div class="stat"><span class="k">Slot 3</span><span class="v">{{ character.accessory3.name|default:"—" }}</span></div>
+  </div>
+</div>
+
+{% include "game/_battle_log.html" %}

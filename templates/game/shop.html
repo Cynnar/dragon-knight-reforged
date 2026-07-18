@@ -2,34 +2,4 @@
 
 {% block title %}Shop — {{ town.name }}{% endblock %}
 
-{% block content %}
-<div class="panel">
-  <h1>{{ town.name }} — Shop</h1>
-  <p class="muted">Your gold: <strong>{{ character.gold }}</strong></p>
-  <p class="muted">Weapons raise Attack; armor and shields raise Defense. Buying an item
-     trades in whatever you have in that slot for half its value.</p>
-</div>
-
-<div class="panel">
-  {% if items %}
-  <div class="shop-list">
-    {% for item in items %}
-    <form method="post" action="{% url 'buy_item' item.id %}" class="shop-row">
-      {% csrf_token %}
-      <div class="shop-info">
-        <strong>{{ item.name }}</strong>
-        <span class="muted">{{ item.get_slot_display }} · power {{ item.power }}{% if item.special %} · special{% endif %}</span>
-      </div>
-      <div class="shop-buy">
-        <span class="muted">{{ item.buy_cost }}g</span>
-        <button class="btn" type="submit" {% if character.gold < item.buy_cost %}disabled{% endif %}>Buy</button>
-      </div>
-    </form>
-    {% endfor %}
-  </div>
-  {% else %}
-  <p class="muted">This shop has nothing for sale.</p>
-  {% endif %}
-  <p style="margin-top:1rem"><a href="{% url 'home' %}">← Back to town</a></p>
-</div>
-{% endblock %}
+{% block content %}{% include "game/_shop_body.html" %}{% endblock %}

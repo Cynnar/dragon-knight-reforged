@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Create your hero — Dragon Knight{% endblock %}
+
+{% block content %}
+<div class="panel form-panel">
+  <h1>Create your hero</h1>
+  <p class="muted">Choose a name, a class, and a difficulty — this is who you'll be in the world.</p>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Enter the world</button>
+  </form>
+</div>
+
+<div class="panel">
+  <h2>Classes</h2>
+  <p><strong>Mage</strong> — leans into magic and MP.<br>
+     <strong>Warrior</strong> — leans into HP and strength.<br>
+     <strong>Paladin</strong> — a balanced hybrid of the two.</p>
+  <h2>Difficulty</h2>
+  <p class="muted">Higher difficulty means tougher monsters that hit harder — but they pay out
+     proportionally more experience and gold.</p>
+</div>
+{% endblock %}

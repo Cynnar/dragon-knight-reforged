@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Item Drop — Dragon Knight{% endblock %}
+
+{% block content %}
+<div class="panel">
+  <h1>Item Drop</h1>
+  <p>The monster dropped: <strong>{{ drop.name }}</strong></p>
+  {% if bonuses %}
+  <p class="muted">It grants:</p>
+  <ul>
+    {% for b in bonuses %}<li>{{ b }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+</div>
+
+<div class="panel">
+  <p>Equip it into an accessory slot. If the slot is full, the old item is discarded.</p>
+  <form method="post" action="{% url 'drop_equip' %}">
+    {% csrf_token %}
+    <p>
+      <label for="slot">Slot</label>
+      <select name="slot" id="slot">
+        <option value="1">Slot 1: {{ character.accessory1.name|default:"empty" }}</option>
+        <option value="2">Slot 2: {{ character.accessory2.name|default:"empty" }}</option>
+        <option value="3">Slot 3: {{ character.accessory3.name|default:"empty" }}</option>
+      </select>
+    </p>
+    <div class="actions">
+      <button class="btn" type="submit">Equip</button>
+    </div>
+  </form>
+  <form method="post" action="{% url 'drop_leave' %}" style="margin-top:.75rem">
+    {% csrf_token %}
+    <button class="btn btn-secondary" type="submit">Leave it behind</button>
+  </form>
+</div>
+{% endblock %}

@@ -243,9 +243,9 @@ class Character(models.Model):
     weapon = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
     armor = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
     shield = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
-    accessory1 = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
-    accessory2 = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
-    accessory3 = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    accessory1 = models.ForeignKey(Drop, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    accessory2 = models.ForeignKey(Drop, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    accessory3 = models.ForeignKey(Drop, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
 
     # Known spells + unlocked towns were CSV strings in the original; now real M2Ms.
     known_spells = models.ManyToManyField(Spell, blank=True, related_name="known_by")

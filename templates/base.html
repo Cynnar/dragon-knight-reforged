@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Dragon Knight{% endblock %}</title>
+  <style>
+    :root {
+      --bg: #14110f;
+      --panel: #1e1a17;
+      --panel-border: #3a322c;
+      --text: #e8e0d5;
+      --muted: #a1968a;
+      --accent: #c9a227;
+      --accent-2: #7c3b2e;
+      --link: #d9b64e;
+      --danger: #c8553d;
+      --ok: #6fa06f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+    }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .muted { color: var(--muted); }
+    /* Full-height column layout: header, growing content, footer */
+    .site { display: flex; flex-direction: column; min-height: 100dvh; }
+    .site-header {
+      background: linear-gradient(180deg, #241f1b, #1a1613);
+      border-bottom: 2px solid var(--accent-2);
+      padding: .75rem 1rem;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: .5rem; flex-wrap: wrap;
+    }
+    .brand { font-size: 1.25rem; font-weight: 700; letter-spacing: .02em; color: var(--accent); }
+    .brand a { color: inherit; }
+    .nav { display: flex; gap: .75rem; align-items: center; font-size: .95rem; }
+    /* Fluid on phones; capped and centered on wide screens */
+    .content { flex: 1; width: 100%; max-width: 900px; margin: 0 auto; padding: 1rem; }
+    .panel {
+      background: var(--panel); border: 1px solid var(--panel-border);
+      border-radius: 10px; padding: 1rem; margin-bottom: 1rem;
+    }
+    .site-footer {
+      text-align: center; color: var(--muted); font-size: .8rem;
+      padding: 1rem; border-top: 1px solid var(--panel-border);
+    }
+    .btn {
+      display: inline-block; background: var(--accent); color: #1a1613;
+      font-weight: 600; padding: .6rem 1rem; border-radius: 8px; border: none;
+      cursor: pointer; font-size: 1rem;
+    }
+    .btn:hover { text-decoration: none; filter: brightness(1.08); }
+    .btn-secondary { background: transparent; color: var(--link); border: 1px solid var(--panel-border); }
+    h1, h2, h3 { line-height: 1.2; }
+    /* Forms */
+    .form-panel { max-width: 440px; }
+    form p { margin: 0 0 .85rem; }
+    label { display: block; font-size: .9rem; color: var(--muted); margin-bottom: .25rem; }
+    input[type=text], input[type=password], input[type=email], select {
+      width: 100%; padding: .6rem .7rem; font-size: 1rem;
+      background: #14110f; color: var(--text);
+      border: 1px solid var(--panel-border); border-radius: 8px;
+    }
+    input:focus, select:focus { outline: none; border-color: var(--accent); }
+    ul.errorlist { color: var(--danger); list-style: none; padding-left: 0; margin: .25rem 0; font-size: .85rem; }
+    .helptext { color: var(--muted); font-size: .8rem; display: block; margin-top: .25rem; }
+    .form-error { color: var(--danger); }
+    .linkbtn { background: none; border: none; color: var(--link); cursor: pointer; font: inherit; padding: 0; }
+    .linkbtn:hover { text-decoration: underline; }
+    .logout-form { display: inline; margin: 0; }
+    /* Status stat grid: 2 columns on phones, 3 on wider screens */
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+    .stat { display: flex; justify-content: space-between; gap: .5rem;
+            border-bottom: 1px solid var(--panel-border); padding: .4rem 0; }
+    .stat .k { color: var(--muted); }
+    .stat .v { font-weight: 600; }
+    /* Compass movement pad */
+    .compass { display: grid; grid-template-columns: repeat(3, 1fr);
+      grid-template-areas: ". n ." "w c e" ". s ."; gap: .5rem; max-width: 280px; margin: 0 auto; }
+    .compass form { margin: 0; }
+    .c-n { grid-area: n; } .c-w { grid-area: w; } .c-e { grid-area: e; } .c-s { grid-area: s; }
+    .c-c { grid-area: c; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .9rem; }
+    .btn.dir { width: 100%; }
+    /* Flash messages */
+    .messages { margin-bottom: 1rem; }
+    .msg { background: var(--panel); border: 1px solid var(--panel-border);
+      border-left: 3px solid var(--accent); border-radius: 8px; padding: .6rem .8rem; margin-bottom: .5rem; }
+    .msg.warning { border-left-color: var(--danger); }
+    .msg.success { border-left-color: var(--ok); }
+    .msg.error { border-left-color: var(--danger); }
+    .actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .actions form { margin: 0; }
+    .spell-list { display: flex; flex-direction: column; gap: .5rem; }
+    .spell-row { display: flex; align-items: center; gap: .75rem; margin: 0; }
+    .spell-row .btn { min-width: 8rem; }
+    .spell-row button:disabled { opacity: .45; cursor: not-allowed; }
+    .spell-meta { font-size: .85rem; }
+    .shop-list { display: flex; flex-direction: column; gap: .6rem; }
+    .shop-row { display: flex; align-items: center; justify-content: space-between;
+      gap: .75rem; margin: 0; border-bottom: 1px solid var(--panel-border); padding-bottom: .6rem; }
+    .shop-info { display: flex; flex-direction: column; }
+    .shop-buy { display: flex; align-items: center; gap: .75rem; white-space: nowrap; }
+    @media (min-width: 640px) {
+      .site-header { padding: 1rem 1.5rem; }
+      .content { padding: 1.5rem; }
+      .brand { font-size: 1.5rem; }
+      .stat-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <div class="site">
+    <header class="site-header">
+      <div class="brand"><a href="/">⚔ Dragon Knight</a></div>
+      <nav class="nav">
+        {% block nav %}
+          {% if user.is_authenticated %}
+            <span class="muted">{{ user.username }}</span>
+            <form method="post" action="{% url 'logout' %}" class="logout-form">
+              {% csrf_token %}
+              <button type="submit" class="linkbtn">Log out</button>
+            </form>
+          {% else %}
+            <a href="{% url 'login' %}">Log in</a>
+            <a href="{% url 'signup' %}">Sign up</a>
+          {% endif %}
+        {% endblock %}
+      </nav>
+    </header>
+    <main class="content">
+      {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+            <div class="msg {{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+      {% block footer %}Dragon Knight — Reforged{% endblock %}
+    </footer>
+  </div>
+</body>
+</html>

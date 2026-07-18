@@ -98,3 +98,8 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"              # user uploads (bind-mounted to data/)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Auth redirects
+LOGIN_REDIRECT_URL = "home"    # where login/signup send you
+LOGOUT_REDIRECT_URL = "home"   # where logout sends you
+LOGIN_URL = "login"            # where @login_required bounces anonymous users

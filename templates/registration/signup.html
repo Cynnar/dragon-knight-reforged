@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Sign up — Dragon Knight{% endblock %}
+
+{% block content %}
+<div class="panel form-panel">
+  <h1>Create your account</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Sign up</button>
+  </form>
+  <p class="muted">Already have an account? <a href="{% url 'login' %}">Log in</a>.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Dragon Knight — Welcome{% endblock %}
+
+{% block content %}
+<div class="panel">
+  <h1>Welcome, adventurer</h1>
+  <p>Dragon Knight is a persistent world of exploration and battle. Forge a hero,
+     roam the wilds, and grow strong enough to face what waits out there.</p>
+  <p><a class="btn" href="{% url 'signup' %}">Begin your journey</a></p>
+</div>
+
+<div class="panel">
+  <h2>The world awaits</h2>
+  <p class="muted">151 monsters prowl the land — from the meekest slime to Lucifuge himself.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Battle — Dragon Knight{% endblock %}
+
+{% block content %}
+<div class="panel">
+  <h1>Battle</h1>
+  <p>You face a <strong>{{ monster.name }}</strong> <span class="muted">(level {{ monster.level }})</span>.</p>
+  <div class="stat-grid">
+    <div class="stat"><span class="k">Enemy HP</span><span class="v">{{ character.current_monster_hp }}</span></div>
+    <div class="stat"><span class="k">Your HP</span><span class="v">{{ character.current_hp }}/{{ character.max_hp }}</span></div>
+    <div class="stat"><span class="k">Your MP</span><span class="v">{{ character.current_mp }}/{{ character.max_mp }}</span></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="actions">
+    <form method="post" action="{% url 'fight_action' 'attack' %}">{% csrf_token %}<button class="btn" type="submit">Attack</button></form>
+    <form method="post" action="{% url 'fight_action' 'run' %}">{% csrf_token %}<button class="btn btn-secondary" type="submit">Run</button></form>
+  </div>
+</div>
+
+{% if spells %}
+<div class="panel">
+  <h2>Spells</h2>
+  <div class="spell-list">
+    {% for spell in spells %}
+      <form method="post" action="{% url 'cast_spell' %}" class="spell-row">
+        {% csrf_token %}
+        <input type="hidden" name="spell_id" value="{{ spell.id }}">
+        <button class="btn btn-secondary" type="submit"
+                {% if character.current_mp < spell.mp_cost %}disabled{% endif %}>
+          {{ spell.name }}
+        </button>
+        <span class="spell-meta muted">{{ spell.get_effect_display }} · {{ spell.mp_cost }} MP</span>
+      </form>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

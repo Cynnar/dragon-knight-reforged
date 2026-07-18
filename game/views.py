@@ -394,3 +394,28 @@ def drop_leave(request):
         character.save()
         messages.info(request, f"You leave the {name} behind.")
     return redirect("home")
+
+
+# ── community: tavern (news + babblebox) ─────────────────────────────────────
+@login_required
+def tavern(request):
+    from .models import BabbleMessage, News
+    babbles = list(BabbleMessage.objects.select_related("author").order_by("-posted_at")[:20])
+    names = dict(
+        Character.objects.filter(user__in=[b.author_id for b in babbles if b.author_id])
+        .values_list("user_id", "char_name")
+    )
+    for b in babbles:
+        b.display_name = names.get(b.author_id) or (b.author.username if b.author_id else "Unknown")
+    news = News.objects.order_by("-posted_at")[:5]
+    return render(request, "game/tavern.html", {"babbles": babbles, "news": news})
+
+
+@login_required
+@require_POST
+def post_babble(request):
+    from .models import BabbleMessage
+    text = (request.POST.get("babble") or "").strip()[:120]
+    if text:
+        BabbleMessage.objects.create(author=request.user, message=text)
+    return redirect("tavern")

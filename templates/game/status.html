@@ -16,6 +16,9 @@
   <div class="actions">
     <form method="post" action="{% url 'inn' %}">{% csrf_token %}
       <button class="btn" type="submit">Rest at inn ({{ current_town.inn_price }} gold)</button></form>
+    <a class="btn btn-secondary" href="{% url 'shop' %}">Visit shop</a>
+  </div>
+</div>
 {% endif %}
 
 {% if character.pending_drop %}

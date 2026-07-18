@@ -17,5 +17,7 @@ urlpatterns = [
     path("drop/", views.drop_reveal, name="drop_reveal"),
     path("drop/equip/", views.drop_equip, name="drop_equip"),
     path("drop/leave/", views.drop_leave, name="drop_leave"),
+    path("tavern/", views.tavern, name="tavern"),
+    path("tavern/babble/", views.post_babble, name="post_babble"),
     path("", views.home, name="home"),
 ]

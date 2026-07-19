@@ -1,34 +1,25 @@
 <div class="panel">
-  <h1>{{ town.name }} — Shop</h1>
+  <h1>{{ town.name }} — Market</h1>
   <p class="muted">Your gold: <strong>{{ character.gold }}</strong></p>
-  <p class="muted">Weapons raise Attack; armor and shields raise Defense. Buying an item
-     trades in whatever you have in that slot for half its value.</p>
 </div>
 
 <div class="panel">
-  {% if items %}
-  <div class="shop-list">
-    {% for item in items %}
-    <form method="post" action="{% url 'buy_item' item.id %}" class="shop-row"
-          hx-post="{% url 'buy_item' item.id %}" hx-target="#game-panel" hx-swap="innerHTML"
-          hx-indicator="#game-panel" hx-disabled-elt="find button">
-      {% csrf_token %}
-      <div class="shop-info">
-        <strong>{{ item.name }}</strong>
-        <span class="muted">{{ item.get_slot_display }} · power {{ item.power }}{% if item.special %} · special{% endif %}</span>
+  {% if vendors %}
+  <div class="vendor-list">
+    {% for v in vendors %}
+    <a class="vendor-row" href="{% url 'vendor' v.slug %}"
+       hx-get="{% url 'vendor' v.slug %}" hx-target="#game-panel" hx-swap="innerHTML"
+       hx-push-url="true" hx-indicator="#game-panel">
+      <div class="vendor-info">
+        <strong>{{ v.name }}</strong>
+        <span class="muted">{{ v.blurb|default:v.get_kind_display }}</span>
       </div>
-      <div class="shop-buy">
-        <span class="muted">{{ item.buy_cost }}g</span>
-        <button class="btn" type="submit" {% if character.gold < item.buy_cost %}disabled{% endif %}>Buy</button>
-      </div>
-    </form>
+      <span class="muted vendor-count">{{ v.stock_count }} item{{ v.stock_count|pluralize }}</span>
+    </a>
     {% endfor %}
   </div>
   {% else %}
-  <p class="muted">This shop has nothing for sale.</p>
+  <p class="muted">No merchants are trading in {{ town.name }} today.</p>
   {% endif %}
-  <p style="margin-top:1rem">
-    <a href="{% url 'home' %}" hx-get="{% url 'home' %}" hx-target="#game-panel"
-       hx-swap="innerHTML" hx-push-url="true" hx-indicator="#game-panel">← Back to town</a>
-  </p>
+  {% include "game/_backlinks.html" %}
 </div>

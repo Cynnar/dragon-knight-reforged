@@ -179,10 +179,11 @@ def wake_check(character):
     return "asleep"
 
 
-def roll_drop(monster):
-    """1-in-30 chance on a (non-level-up) victory to drop loot (spec §6).
-    Returns a Drop the monster's level qualifies for, or None."""
+def roll_drop(monster, rate=30):
+    """Loot chance on a (non-level-up) victory: 1 in `rate` (spec §6 used 30).
+    The rate is admin-tunable via GameControl. Returns a qualifying Drop or None."""
     from .models import Drop
-    if rnd(1, 30) != 1:
+    rate = max(1, int(rate or 30))
+    if rnd(1, rate) != 1:
         return None
     return Drop.objects.filter(min_monster_level__lte=monster.level).order_by("?").first()

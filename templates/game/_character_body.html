@@ -1,0 +1,100 @@
+<div class="panel">
+  <h1>{{ character.char_name }}</h1>
+  <p class="muted">Level {{ character.level }} {{ character.get_char_class_display }}
+     · {{ character.get_difficulty_display }} · at {{ character.latitude }}, {{ character.longitude }}</p>
+</div>
+
+<div class="panel">
+  <h2>Vitals</h2>
+  <div class="vitals">
+    <div class="vital">
+      <div class="vital-head"><span>HP</span><span class="v">{{ character.current_hp }}/{{ character.max_hp }}</span></div>
+      <div class="bar"><div class="bar-fill hp" style="width:{% widthratio character.current_hp character.max_hp 100 %}%"></div></div>
+    </div>
+    {% if character.max_mp %}
+    <div class="vital">
+      <div class="vital-head"><span>MP</span><span class="v">{{ character.current_mp }}/{{ character.max_mp }}</span></div>
+      <div class="bar"><div class="bar-fill mp" style="width:{% widthratio character.current_mp character.max_mp 100 %}%"></div></div>
+    </div>
+    {% endif %}
+    <div class="vital">
+      <div class="vital-head"><span>TP</span><span class="v">{{ character.current_tp }}/{{ character.max_tp }}</span></div>
+      <div class="bar"><div class="bar-fill tp" style="width:{% widthratio character.current_tp character.max_tp 100 %}%"></div></div>
+    </div>
+    <div class="vital">
+      <div class="vital-head">
+        <span>EXP {% if next_exp %}<span class="muted">· {{ exp_remaining }} to level {{ character.level|add:1 }}</span>{% endif %}</span>
+        <span class="v">{{ character.experience }}</span>
+      </div>
+      <div class="bar"><div class="bar-fill exp" style="width:{{ exp_pct }}%"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Attributes</h2>
+  <div class="stat-grid">
+    <div class="stat"><span class="k">Strength</span><span class="v">{{ character.strength }}</span></div>
+    <div class="stat"><span class="k">Dexterity</span><span class="v">{{ character.dexterity }}</span></div>
+    <div class="stat"><span class="k">Attack</span><span class="v">{{ character.attack_power }}</span></div>
+    <div class="stat"><span class="k">Defense</span><span class="v">{{ character.defense_power }}</span></div>
+    <div class="stat"><span class="k">Gold</span><span class="v">{{ character.gold }}</span></div>
+    <div class="stat"><span class="k">Exp bonus</span><span class="v">{{ character.exp_bonus }}%</span></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Equipment</h2>
+  <div class="stat-grid">
+    {% for label, slot, thing in character.equipped_slots %}
+      <div class="stat"><span class="k">{{ label }}</span><span class="v">{{ thing.name|default:"—" }}</span></div>
+    {% endfor %}
+  </div>
+  <p style="margin-top:.8rem">
+    <a class="btn btn-secondary" href="{% url 'inventory' %}"
+       hx-get="{% url 'inventory' %}" hx-target="#game-panel" hx-swap="innerHTML"
+       hx-push-url="true" hx-indicator="#game-panel">Open bag</a>
+  </p>
+</div>
+
+<div class="panel">
+  <h2>Quests</h2>
+  {% if active_quests %}
+  <div class="quest-list">
+    {% for a in active_quests %}
+    <div class="quest-row">
+      <div class="quest-info">
+        <strong>{{ a.quest.name }}</strong>
+        <span class="muted">{{ a.quest.describe }}</span>
+        <div class="bar quest-bar"><div class="bar-fill exp" style="width:{{ a.percent }}%"></div></div>
+        <span class="muted quest-progress">{{ a.progress }}/{{ a.quest.goal_total }}{% if a.state == 2 %} · ready to hand in{% endif %}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">No active quests. Check a town's quest board.</p>
+  {% endif %}
+  <p style="margin-top:.8rem">
+    <a class="btn btn-secondary" href="{% url 'quests' %}"
+       hx-get="{% url 'quests' %}" hx-target="#game-panel" hx-swap="innerHTML"
+       hx-push-url="true" hx-indicator="#game-panel">Quest board</a>
+  </p>
+</div>
+
+<div class="panel">
+  <h2>Spells</h2>
+  {% with known=character.known_spells.all %}
+    {% if known %}
+    <div class="stat-grid">
+      {% for sp in known %}
+        <div class="stat"><span class="k">{{ sp.name }}</span><span class="v">{{ sp.mp_cost }} MP</span></div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="muted">You haven't learned any spells yet — they come with levels.</p>
+    {% endif %}
+  {% endwith %}
+</div>
+
+{% include "game/_backlinks.html" %}

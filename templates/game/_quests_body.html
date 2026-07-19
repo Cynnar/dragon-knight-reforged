@@ -1,0 +1,77 @@
+<div class="panel">
+  <h1>Quests</h1>
+  <p class="muted">
+    {% if town %}The board in {{ town.name }}.{% else %}You're in the wilds — boards are posted in towns.{% endif %}
+  </p>
+</div>
+
+<div class="panel">
+  <h2>Your quests</h2>
+  {% if active %}
+  <div class="quest-list">
+    {% for a in active %}
+    <div class="quest-row">
+      <div class="quest-info">
+        <strong>{{ a.quest.name }}</strong>
+        <span class="muted">{{ a.quest.describe }}</span>
+        <div class="bar quest-bar"><div class="bar-fill exp" style="width:{{ a.percent }}%"></div></div>
+        <span class="muted quest-progress">{{ a.progress }}/{{ a.quest.goal_total }}</span>
+      </div>
+      <div class="quest-actions">
+        {% if a.state == 2 %}
+          <form method="post" action="{% url 'quest_claim' a.id %}"
+                hx-post="{% url 'quest_claim' a.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+                hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+            <button class="btn" type="submit" {% if not town %}disabled{% endif %}>Hand in</button>
+          </form>
+        {% else %}
+          <form method="post" action="{% url 'quest_abandon' a.id %}"
+                hx-post="{% url 'quest_abandon' a.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+                hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+            <button class="btn btn-secondary" type="submit">Abandon</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">You're not on any quests.</p>
+  {% endif %}
+</div>
+
+{% if town %}
+<div class="panel">
+  <h2>Available</h2>
+  {% if offers %}
+  <div class="quest-list">
+    {% for q in offers %}
+    <div class="quest-row">
+      <div class="quest-info">
+        <strong>{{ q.name }}</strong>
+        <span class="muted">{{ q.describe }}{% if q.min_level > 1 %} · level {{ q.min_level }}+{% endif %}</span>
+        {% if q.summary %}<span class="muted quest-summary">{{ q.summary }}</span>{% endif %}
+        <span class="muted quest-reward">
+          Reward:
+          {% if q.reward_exp %}{{ q.reward_exp }} EXP{% endif %}
+          {% if q.reward_gold %}{% if q.reward_exp %} · {% endif %}{{ q.reward_gold }} gold{% endif %}
+          {% if q.reward_item %} · {{ q.reward_item.name }}{% endif %}
+        </span>
+      </div>
+      <div class="quest-actions">
+        <form method="post" action="{% url 'quest_accept' q.id %}"
+              hx-post="{% url 'quest_accept' q.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+              hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+          <button class="btn" type="submit">Accept</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">Nothing posted here right now.</p>
+  {% endif %}
+</div>
+{% endif %}
+
+{% include "game/_backlinks.html" %}

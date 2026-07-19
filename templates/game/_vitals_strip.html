@@ -1,0 +1,22 @@
+{% comment %}At-a-glance vitals. Full detail lives on the character sheet.{% endcomment %}
+<div class="panel">
+  <div class="vitals">
+    <div class="vital">
+      <div class="vital-head"><span>HP</span><span class="v">{{ character.current_hp }}/{{ character.max_hp }}</span></div>
+      <div class="bar"><div class="bar-fill hp" style="width:{% widthratio character.current_hp character.max_hp 100 %}%"></div></div>
+    </div>
+    {% if character.max_mp %}
+    <div class="vital">
+      <div class="vital-head"><span>MP</span><span class="v">{{ character.current_mp }}/{{ character.max_mp }}</span></div>
+      <div class="bar"><div class="bar-fill mp" style="width:{% widthratio character.current_mp character.max_mp 100 %}%"></div></div>
+    </div>
+    {% endif %}
+  </div>
+  <p class="muted vitals-meta">
+    <span>{{ character.gold }} gold</span> ·
+    <span>{{ character.current_tp }}/{{ character.max_tp }} TP</span> ·
+    <a href="{% url 'character_sheet' %}" hx-get="{% url 'character_sheet' %}"
+       hx-target="#game-panel" hx-swap="innerHTML" hx-push-url="true"
+       hx-indicator="#game-panel">Character sheet →</a>
+  </p>
+</div>

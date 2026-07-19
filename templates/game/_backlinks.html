@@ -1,0 +1,10 @@
+{% comment %}
+"Back" walks the real browser history, so town → market → weaponsmith goes back
+to the market, not to the adventure screen. HTMX pushes a URL for every panel
+navigation, so history is accurate; "Adventure" stays as a direct way home.
+{% endcomment %}
+<p class="backlinks">
+  <a href="#" class="back-link" onclick="history.back(); return false;">← Back</a>
+  <a href="{% url 'home' %}" hx-get="{% url 'home' %}" hx-target="#game-panel"
+     hx-swap="innerHTML" hx-push-url="true" hx-indicator="#game-panel">Adventure</a>
+</p>

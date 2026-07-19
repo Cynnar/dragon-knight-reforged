@@ -1,0 +1,12 @@
+{% comment %}
+The nav's town link. It sits OUTSIDE #game-panel, so every HTMX fragment
+re-sends it as an out-of-band swap (oob=True) to keep it truthful as the
+player enters, leaves, or travels between towns.
+{% endcomment %}
+<span id="nav-town-slot"{% if oob %} hx-swap-oob="true"{% endif %}>
+  {% if nav_town %}
+    <a class="nav-town" href="{% url 'town' %}"
+       hx-get="{% url 'town' %}" hx-target="#game-panel" hx-swap="innerHTML"
+       hx-push-url="true">{{ nav_town.name }}</a>
+  {% endif %}
+</span>

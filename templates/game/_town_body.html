@@ -1,0 +1,42 @@
+<div class="panel">
+  <h1>{{ town.name }}</h1>
+  <p class="muted">{{ town.latitude }}, {{ town.longitude }}</p>
+  {% for s in sections %}
+    {% if s.heading %}<h2 class="town-heading">{{ s.heading }}</h2>{% endif %}
+    <p class="town-body">{{ s.body|linebreaksbr }}</p>
+  {% empty %}
+    <p class="muted">A quiet place. Nobody has written its story yet.</p>
+  {% endfor %}
+
+  {% if town_image %}
+  <figure class="town-figure">
+    <img src="{{ town_image.image.url }}" alt="{{ town_image.caption|default:town.name }}" loading="lazy">
+    {% if town_image.caption %}<figcaption class="muted">{{ town_image.caption }}</figcaption>{% endif %}
+  </figure>
+  {% endif %}
+</div>
+
+<div class="panel">
+  <h2>In town</h2>
+  <div class="town-actions">
+    <form method="post" action="{% url 'inn' %}"
+          hx-post="{% url 'inn' %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+      <button class="btn" type="submit">Rest at the inn ({{ town.inn_price }} gold)</button>
+    </form>
+    <a class="btn btn-secondary" href="{% url 'shop' %}"
+       hx-get="{% url 'shop' %}" hx-target="#game-panel" hx-swap="innerHTML"
+       hx-push-url="true" hx-indicator="#game-panel">Market{% if vendor_count %} ({{ vendor_count }}){% endif %}</a>
+    <a class="btn btn-secondary" href="{% url 'bank' %}"
+       hx-get="{% url 'bank' %}" hx-target="#game-panel" hx-swap="innerHTML"
+       hx-push-url="true" hx-indicator="#game-panel">Bank</a>
+    <a class="btn btn-secondary" href="{% url 'quests' %}"
+       hx-get="{% url 'quests' %}" hx-target="#game-panel" hx-swap="innerHTML"
+       hx-push-url="true" hx-indicator="#game-panel">Quest board{% if quest_count %} ({{ quest_count }}){% endif %}</a>
+    <a class="btn btn-secondary" href="{% url 'world_map' %}"
+       hx-get="{% url 'world_map' %}" hx-target="#game-panel" hx-swap="innerHTML"
+       hx-push-url="true" hx-indicator="#game-panel">Map &amp; journeys</a>
+  </div>
+</div>
+
+{% include "game/_backlinks.html" %}

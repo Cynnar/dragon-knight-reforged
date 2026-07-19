@@ -10,9 +10,11 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
-from . import combat, shop
+from . import combat, inventory, quests as quest_rules, shop, vendors as vendor_rules
 from .forms import CharacterForm, SignupForm
-from .models import Action, Character, GameControl, LevelTier, Monster, Town, VisitedTile
+from .models import (Action, Character, EquipSlot, GameControl, InventoryItem,
+                     ItemLocation, LevelTier, Monster, Town, VisitedTile)
+from .models import CharacterQuest, Quest, QuestState
 
 
 # ── pages ────────────────────────────────────────────────────────────────────
@@ -88,13 +90,9 @@ def move(request, direction):
     except (TypeError, ValueError):
         steps = 1
     steps = max(1, min(MAX_STEPS, steps))
+    request.session["steps_choice"] = steps   # remember it for next time
 
     log_clear(request)
-
-    left_behind = None
-    if character.pending_drop_id:
-        left_behind = character.pending_drop.name
-        character.pending_drop = None
 
     control = GameControl.objects.first()
     size = control.game_size if control else 250
@@ -122,12 +120,15 @@ def move(request, direction):
                 messages.success(request, f"You discover {town.name}! You can now travel here.")
             else:
                 messages.info(request, f"You arrive at {town.name}.")
+            for quest_name in quest_rules.record_visit(character, town):
+                messages.success(request, f"Quest ready to hand in: {quest_name}.")
             stopped = "town"
             break
 
         character.current_action = Action.EXPLORING
         mark_visited(character)
-        if random.randint(1, 5) == 1 and _start_encounter(character, control, request):
+        encounter_rate = max(1, control.encounter_rate if control else 5)
+        if random.randint(1, encounter_rate) == 1 and _start_encounter(character, control, request):
             character.save()
             stopped = "encounter"
             break
@@ -141,8 +142,6 @@ def move(request, direction):
             messages.info(request, f"You travel {taken} tiles {direction}.")
         if stopped == "edge":
             messages.info(request, f"You can go no further {direction} — the world ends here.")
-    if left_behind:
-        messages.info(request, f"You leave the {left_behind} behind.")
     return play_response(request, character)
 
 
@@ -253,12 +252,14 @@ def _victory(request, character, monster, mod):
     combat.clear_fight(character)
     character.current_action = Action.EXPLORING
     leveled, spell = combat.try_level_up(character)
+    control = GameControl.objects.first()
     dropped = None
     if not leveled:
-        dropped = combat.roll_drop(monster)
-        if dropped:
-            character.pending_drop = dropped
+        dropped = combat.roll_drop(monster, control.drop_rate if control else 30)
     character.save()
+    if dropped:
+        inventory.add_drop(character, dropped)
+    quest_ready = quest_rules.record_kill(character, monster)
     log(request, f"You defeated the {name}!  +{exp} EXP, +{gold} gold.")
     if leveled:
         if spell:
@@ -266,7 +267,11 @@ def _victory(request, character, monster, mod):
         else:
             log(request, f"You reached level {character.level}!")
     if dropped:
-        log(request, f"The {name} dropped an item: {dropped.name}!")
+        log(request, f"The {name} dropped {dropped.name} — it's in your bag.")
+    if leveled:
+        quest_ready += quest_rules.record_level(character)
+    for quest_name in quest_ready:
+        log(request, f"Quest ready to hand in: {quest_name}.")
     return play_response(request, character)
 
 
@@ -339,25 +344,55 @@ def inn(request):
         character.save()
         log_clear(request)
     messages.info(request, msg)
-    return play_response(request, character)
+    return _town_response(request, character, town)
 
 
 @login_required
 def shop_view(request):
+    """The market: whichever counters this town has open."""
     character = _get_character(request)
     if character is None:
         return redirect("create_character")
     town = _current_town(character)
     if town is None:
         messages.info(request, "You need to be in a town to shop.")
-        return redirect("home")
+        return play_response(request, character)
     ctx = {
         "character": character,
         "town": town,
-        "items": town.shop_items.all().order_by("slot", "buy_cost"),
+        "vendors": vendor_rules.vendors_for_town(town, character),
     }
     template = "game/_shop_panel.html" if is_htmx(request) else "game/shop.html"
     return render(request, template, ctx)
+
+
+def _vendor_response(request, character, vendor):
+    town = _current_town(character)
+    if town is None:
+        return play_response(request, character)
+    items, maps = vendor_rules.vendor_goods(vendor, town, character)
+    for m in maps:
+        m.affordable = character.gold >= m.map_price
+    ctx = {
+        "character": character, "town": town, "vendor": vendor,
+        "items": items, "maps": maps,
+    }
+    template = "game/_vendor_panel.html" if is_htmx(request) else "game/vendor.html"
+    return render(request, template, ctx)
+
+
+@login_required
+def vendor_view(request, slug):
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    if _current_town(character) is None:
+        messages.info(request, "You need to be in a town to shop.")
+        return play_response(request, character)
+    vendor = vendor_rules.get_vendor(slug)
+    if vendor is None:
+        return redirect("shop")
+    return _vendor_response(request, character, vendor)
 
 
 @login_required
@@ -373,17 +408,22 @@ def buy_item(request, item_id):
     if item is None:
         messages.info(request, "That item isn't sold here.")
         return redirect("shop")
-    ok, msg = shop.buy_item(character, item)
-    if ok:
+    if character.gold < item.buy_cost:
+        ok, msg = False, "You don't have enough gold to buy that."
+    else:
+        character.gold -= item.buy_cost
         character.save()
+        inventory.add_item(character, item)
+        ok, msg = True, f"You buy the {item.name}. It's in your bag — equip it from there."
     messages.info(request, msg)
-    if is_htmx(request):
-        return render(request, "game/_shop_panel.html", {
-            "character": character,
-            "town": town,
-            "items": town.shop_items.all().order_by("slot", "buy_cost"),
-        })
-    return redirect("shop")
+    vendor = vendor_rules.get_vendor(request.POST.get("vendor", ""))
+    if vendor is not None:
+        return _vendor_response(request, character, vendor)
+    return redirect("shop") if not is_htmx(request) else _shop_or_home(request, character)
+
+
+def _shop_or_home(request, character):
+    return shop_view(request)
 
 
 # ── item drops ───────────────────────────────────────────────────────────────
@@ -630,6 +670,7 @@ def play_context(request, character):
         "next_exp": next_tier.exp_required if next_tier else None,
         "current_town": _current_town(character),
         "minimap": build_minimap(character),
+        "steps_choice": request.session.get("steps_choice", 1),
         "combat_log": request.session.get(LOG_KEY, []),
         # the current round's beats, surfaced at the top of the panel
         "recent_events": request.session.get(LOG_KEY, [])[-2:],
@@ -662,9 +703,9 @@ def play_response(request, character):
 
 
 def play_context_full(request, character):
-    ctx = play_context(request, character)
-    ctx.update(travel_options(character))
-    return ctx
+    """The adventure screen: map, compass, town actions and the battle log.
+    Character stats live on the character sheet; journeys on the travel page."""
+    return play_context(request, character)
 
 
 def render_play(request, character):
@@ -687,15 +728,15 @@ def travel(request, town_id):
         return redirect("create_character")
     if _current_town(character) is None:
         messages.info(request, "You can only set out on a journey from a town.")
-        return play_response(request, character)
+        return _travel_response(request, character)
 
     town = character.unlocked_towns.filter(id=town_id).first()
     if town is None:
         messages.info(request, "You don't have the map to that town.")
-        return play_response(request, character)
+        return _travel_response(request, character)
     if character.current_tp < town.travel_points:
         messages.info(request, f"You need {town.travel_points} TP to travel to {town.name}.")
-        return play_response(request, character)
+        return _travel_response(request, character)
 
     character.current_tp -= town.travel_points
     character.latitude = town.latitude
@@ -705,6 +746,8 @@ def travel(request, town_id):
     mark_visited(character)
     log_clear(request)
     messages.success(request, f"You journey to {town.name}.  (-{town.travel_points} TP)")
+    for quest_name in quest_rules.record_visit(character, town):
+        messages.success(request, f"Quest ready to hand in: {quest_name}.")
     return play_response(request, character)
 
 
@@ -715,21 +758,31 @@ def buy_map(request, town_id):
     character = _get_character(request)
     if character is None:
         return redirect("create_character")
+    vendor = vendor_rules.get_vendor(request.POST.get("vendor", ""))
+
+    def _back():
+        if vendor is not None:
+            return _vendor_response(request, character, vendor)
+        return _travel_response(request, character)
+
     if _current_town(character) is None:
-        return play_response(request, character)
+        return _back()
 
     town = Town.objects.filter(id=town_id).first()
     if town is None or character.unlocked_towns.filter(id=town.id).exists():
-        return play_response(request, character)
+        return _back()
     if character.gold < town.map_price:
         messages.info(request, f"The map to {town.name} costs {town.map_price} gold.")
-        return play_response(request, character)
+        return _back()
 
     character.gold -= town.map_price
     character.save()
     character.unlocked_towns.add(town)
     messages.success(request, f"You buy the map to {town.name}.  (-{town.map_price} gold)")
-    return play_response(request, character)
+    vendor = vendor_rules.get_vendor(request.POST.get("vendor", ""))
+    if vendor is not None:
+        return _vendor_response(request, character, vendor)
+    return _travel_response(request, character)
 
 
 # ── full world map ──────────────────────────────────────────────────────────
@@ -775,5 +828,339 @@ def world_map(request):
         "tile_count": len(tiles),
         "town_count": len(towns),
     }
+    ctx.update(travel_options(character))
+    ctx["current_town"] = _current_town(character)
     template = "game/_map_panel.html" if is_htmx(request) else "game/map.html"
     return render(request, template, ctx)
+
+
+# ── inventory ───────────────────────────────────────────────────────────────
+def inventory_context(character):
+    entries = list(
+        inventory.bag(character).select_related("item", "drop")
+    )
+    for e in entries:
+        e.sale_value = inventory.sale_value(e)
+        e.bonuses = shop.describe_drop(e.drop) if e.drop_id else []
+    return {
+        "character": character,
+        "entries": entries,
+        "in_town": _current_town(character) is not None,
+    }
+
+
+def _inventory_response(request, character):
+    ctx = inventory_context(character)
+    template = "game/_inventory_panel.html" if is_htmx(request) else "game/inventory.html"
+    return render(request, template, ctx)
+
+
+@login_required
+def inventory_view(request):
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    return _inventory_response(request, character)
+
+
+@login_required
+@require_POST
+def equip(request, entry_id):
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    entry = inventory.bag(character).filter(id=entry_id).first()
+    if entry is None:
+        messages.info(request, "That item isn't in your bag.")
+        return _inventory_response(request, character)
+
+    if entry.is_accessory:
+        try:
+            slot_num = int(request.POST.get("slot", 1))
+        except (TypeError, ValueError):
+            slot_num = 1
+        ok, msg = inventory.equip_drop(character, entry, slot_num)
+    else:
+        ok, msg = inventory.equip_item(character, entry)
+    if ok:
+        character.save()
+    messages.info(request, msg)
+    return _inventory_response(request, character)
+
+
+@login_required
+@require_POST
+def unequip(request, slot):
+    """`slot` is weapon / armor / shield / accessory1..3."""
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+
+    gear = {"weapon": EquipSlot.WEAPON, "armor": EquipSlot.ARMOR, "shield": EquipSlot.SHIELD}
+    if slot in gear:
+        ok, msg = inventory.unequip_slot(character, gear[slot])
+    elif slot.startswith("accessory"):
+        try:
+            ok, msg = inventory.unequip_accessory(character, int(slot[-1]))
+        except ValueError:
+            ok, msg = False, "Choose a valid slot."
+    else:
+        ok, msg = False, "Choose a valid slot."
+    if ok:
+        character.save()
+    messages.info(request, msg)
+    return _inventory_response(request, character)
+
+
+@login_required
+@require_POST
+def sell(request, entry_id):
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    if _current_town(character) is None:
+        messages.info(request, "You need to be in a town to sell anything.")
+        return _inventory_response(request, character)
+    entry = inventory.bag(character).filter(id=entry_id).first()
+    if entry is None:
+        return _inventory_response(request, character)
+    ok, msg = inventory.sell(character, entry)
+    if ok:
+        character.save()
+    messages.info(request, msg)
+    return _inventory_response(request, character)
+
+
+# ── character sheet ─────────────────────────────────────────────────────────
+@login_required
+def character_sheet(request):
+    """Everything about the character in one place, so other screens don't
+    have to carry stat panels around."""
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+
+    next_tier = LevelTier.objects.filter(
+        char_class=character.char_class, level=character.level + 1
+    ).first()
+    this_tier = LevelTier.objects.filter(
+        char_class=character.char_class, level=character.level
+    ).first()
+
+    next_exp = next_tier.exp_required if next_tier else None
+    base_exp = this_tier.exp_required if this_tier else 0
+    if next_exp and next_exp > base_exp:
+        span = next_exp - base_exp
+        pct = int(max(0, min(100, (character.experience - base_exp) * 100 / span)))
+        remaining = max(0, next_exp - character.experience)
+    else:
+        pct, remaining = 100, 0
+
+    ctx = {
+        "character": character,
+        "next_exp": next_exp,
+        "exp_pct": pct,
+        "exp_remaining": remaining,
+        "active_quests": quest_rules.active_quests(character),
+    }
+    template = "game/_character_panel.html" if is_htmx(request) else "game/character.html"
+    return render(request, template, ctx)
+
+
+# ── travel page ─────────────────────────────────────────────────────────────
+def travel_context(character):
+    ctx = {"character": character, "current_town": _current_town(character)}
+    ctx.update(travel_options(character))
+    return ctx
+
+
+def _travel_response(request, character):
+    """Journeys now live on the world map, so travel actions land there."""
+    return world_map(request)
+
+
+# ── bank ────────────────────────────────────────────────────────────────────
+def bank_context(character):
+    control = GameControl.objects.first()
+    limit = inventory.bank_slots(control)
+    vault = list(inventory.vault(character).select_related("item", "drop"))
+    return {
+        "character": character,
+        "town": _current_town(character),
+        "vault": vault,
+        "bag": list(inventory.bag(character).select_related("item", "drop")),
+        "slot_limit": limit,
+        "slots_used": len(vault),
+        "slots_free": (limit - len(vault)) if limit else None,
+    }
+
+
+def _bank_response(request, character):
+    ctx = bank_context(character)
+    template = "game/_bank_panel.html" if is_htmx(request) else "game/bank.html"
+    return render(request, template, ctx)
+
+
+def _require_bank(request):
+    """The vault is only reachable from a town counter."""
+    character = _get_character(request)
+    if character is None:
+        return None, redirect("create_character")
+    if _current_town(character) is None:
+        messages.info(request, "You'll find a bank in any town.")
+        return None, play_response(request, character)
+    return character, None
+
+
+@login_required
+def bank_view(request):
+    character, bail = _require_bank(request)
+    return bail if bail else _bank_response(request, character)
+
+
+@login_required
+@require_POST
+def bank_gold(request, action):
+    character, bail = _require_bank(request)
+    if bail:
+        return bail
+    try:
+        amount = int(request.POST.get("amount", 0))
+    except (TypeError, ValueError):
+        amount = 0
+    if action == "deposit":
+        ok, msg = inventory.deposit_gold(character, amount)
+    elif action == "withdraw":
+        ok, msg = inventory.withdraw_gold(character, amount)
+    else:
+        ok, msg = False, "Choose deposit or withdraw."
+    if ok:
+        character.save()
+    messages.info(request, msg)
+    return _bank_response(request, character)
+
+
+@login_required
+@require_POST
+def bank_item(request, action, entry_id):
+    character, bail = _require_bank(request)
+    if bail:
+        return bail
+    entry = InventoryItem.objects.filter(id=entry_id, character=character).first()
+    if entry is None:
+        return _bank_response(request, character)
+    if action == "store":
+        ok, msg = inventory.store_item(character, entry)
+    elif action == "retrieve":
+        ok, msg = inventory.retrieve_item(character, entry)
+    else:
+        ok, msg = False, "Choose store or retrieve."
+    messages.info(request, msg)
+    return _bank_response(request, character)
+
+
+# ── quests ──────────────────────────────────────────────────────────────────
+def quest_context(character, town):
+    return {
+        "character": character,
+        "town": town,
+        "offers": quest_rules.available_quests(character, town) if town else [],
+        "active": quest_rules.active_quests(character),
+    }
+
+
+def _quest_response(request, character):
+    ctx = quest_context(character, _current_town(character))
+    template = "game/_quests_panel.html" if is_htmx(request) else "game/quests.html"
+    return render(request, template, ctx)
+
+
+@login_required
+def quest_board(request):
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    return _quest_response(request, character)
+
+
+@login_required
+@require_POST
+def quest_accept(request, quest_id):
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    town = _current_town(character)
+    if town is None:
+        messages.info(request, "Quest boards are posted in towns.")
+        return _quest_response(request, character)
+    quest = Quest.objects.filter(id=quest_id, is_active=True).first()
+    if quest is None:
+        return _quest_response(request, character)
+    _, msg = quest_rules.accept(character, quest)
+    messages.info(request, msg)
+    return _quest_response(request, character)
+
+
+@login_required
+@require_POST
+def quest_claim(request, attempt_id):
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    if _current_town(character) is None:
+        messages.info(request, "Hand quests in at a town's quest board.")
+        return _quest_response(request, character)
+    attempt = CharacterQuest.objects.filter(
+        id=attempt_id, character=character).select_related("quest").first()
+    if attempt is None:
+        return _quest_response(request, character)
+    ok, msg = quest_rules.claim(character, attempt)
+    if ok:
+        character.save()
+    messages.info(request, msg)
+    return _quest_response(request, character)
+
+
+@login_required
+@require_POST
+def quest_abandon(request, attempt_id):
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    attempt = CharacterQuest.objects.filter(
+        id=attempt_id, character=character).exclude(state=QuestState.DONE).first()
+    if attempt:
+        name = attempt.quest.name
+        attempt.delete()
+        messages.info(request, f"You abandon {name}.")
+    return _quest_response(request, character)
+
+
+# ── town ────────────────────────────────────────────────────────────────────
+def town_context(character, town):
+    return {
+        "character": character,
+        "town": town,
+        "sections": town.sections.filter(is_active=True),
+        "town_image": town.images.filter(is_active=True).first(),
+        "vendor_count": len(vendor_rules.vendors_for_town(town, character)),
+        "quest_count": len(quest_rules.available_quests(character, town)),
+    }
+
+
+def _town_response(request, character, town):
+    ctx = town_context(character, town)
+    template = "game/_town_panel.html" if is_htmx(request) else "game/town.html"
+    return render(request, template, ctx)
+
+
+@login_required
+def town_view(request):
+    character = _get_character(request)
+    if character is None:
+        return redirect("create_character")
+    town = _current_town(character)
+    if town is None:
+        messages.info(request, "You're not in a town.")
+        return play_response(request, character)
+    return _town_response(request, character, town)

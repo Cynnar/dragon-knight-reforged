@@ -1,0 +1,70 @@
+<div class="panel">
+  <h1>Your Bag</h1>
+  <p class="muted">Gold: <strong>{{ character.gold }}</strong>
+    {% if not in_town %}· <span class="muted">visit a town to sell</span>{% endif %}</p>
+</div>
+
+<div class="panel">
+  <h2>Equipped</h2>
+  <div class="equip-list">
+    {% for label, slot, thing in character.equipped_slots %}
+    <div class="equip-row">
+      <div class="equip-info">
+        <span class="muted">{{ label }}</span>
+        <strong>{{ thing.name|default:"—" }}</strong>
+      </div>
+      {% if thing %}
+      <form method="post" action="{% url 'unequip' slot %}"
+            hx-post="{% url 'unequip' slot %}" hx-target="#game-panel" hx-swap="innerHTML"
+            hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+        <button class="btn btn-secondary" type="submit">Unequip</button>
+      </form>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Carried</h2>
+  {% if entries %}
+  <div class="bag-list">
+    {% for e in entries %}
+    <div class="bag-row">
+      <div class="bag-info">
+        <strong>{{ e.name }}</strong>
+        {% if e.is_accessory %}
+          <span class="muted">accessory{% for b in e.bonuses %} · {{ b }}{% endfor %}</span>
+        {% else %}
+          <span class="muted">{{ e.item.get_slot_display }} · power {{ e.item.power }}{% if e.item.special %} · special{% endif %}</span>
+        {% endif %}
+      </div>
+      <div class="bag-actions">
+        <form method="post" action="{% url 'equip' e.id %}"
+              hx-post="{% url 'equip' e.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+              hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+          {% if e.is_accessory %}
+          <select name="slot" aria-label="Accessory slot">
+            <option value="1">Slot 1</option>
+            <option value="2">Slot 2</option>
+            <option value="3">Slot 3</option>
+          </select>
+          {% endif %}
+          <button class="btn" type="submit">Equip</button>
+        </form>
+        {% if in_town and not e.is_accessory %}
+        <form method="post" action="{% url 'sell' e.id %}"
+              hx-post="{% url 'sell' e.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+              hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+          <button class="btn btn-secondary" type="submit">Sell {{ e.sale_value }}g</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">Your bag is empty. Buy gear in a town, or win it from monsters.</p>
+  {% endif %}
+  {% include "game/_backlinks.html" %}
+</div>

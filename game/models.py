@@ -49,6 +49,21 @@ class MonsterImmunity(models.IntegerChoices):
     SLEEP = 2, "Immune to sleep"
 
 
+class VendorKind(models.IntegerChoices):
+    """What a vendor deals in. The *kind* drives which goods it shows; the
+    vendor's name, blurb and ordering are all editable data."""
+    WEAPONS = 1, "Weapons"
+    ARMOR = 2, "Armor & shields"
+    MAGIC = 3, "Enchanted goods"
+    MAPS = 4, "Maps"
+    GENERAL = 5, "General store"
+
+
+class VendorMode(models.IntegerChoices):
+    BY_STOCK = 1, "By stock — a vendor appears if the town has goods for it"
+    ASSIGNED = 2, "Assigned — each town lists exactly the vendors you choose"
+
+
 class Action(models.TextChoices):
     # Original stored these as the strings "In Town" / "Exploring" / "Fighting";
     # normalized to tokens here.
@@ -161,6 +176,22 @@ class Drop(models.Model):
         return self.name
 
 
+class Vendor(models.Model):
+    """A shop counter. Fully admin-editable so a new world can rename or replace
+    the whole cast of merchants without touching code."""
+    name = models.CharField(max_length=40)
+    slug = models.SlugField(max_length=40, unique=True)
+    kind = models.IntegerField(choices=VendorKind.choices)
+    blurb = models.CharField(max_length=200, blank=True)
+    sort_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["sort_order", "name"]
+
+    def __str__(self):
+        return self.name
+
+
 class Town(models.Model):
     """
     Towns. Original table: towns. The original `itemslist` was a CSV of item IDs in a
@@ -173,6 +204,10 @@ class Town(models.Model):
     map_price = models.PositiveIntegerField(default=0)
     travel_points = models.PositiveIntegerField(default=0)
     shop_items = models.ManyToManyField(Item, blank=True, related_name="sold_in_towns")
+    vendors = models.ManyToManyField(
+        Vendor, blank=True, related_name="towns",
+        help_text="Used when the vendor mode is 'Assigned'. Ignored in 'By stock' mode.",
+    )
 
     class Meta:
         ordering = ["name"]
@@ -182,6 +217,48 @@ class Town(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.latitude},{self.longitude})"
+
+
+class TownSection(models.Model):
+    """A block of descriptive text on a town's page.
+
+    One-to-many so a town can carry several blocks — an overview, some history,
+    rumours from the inn — each editable and reorderable in the admin without
+    touching the town's mechanical data.
+    """
+    town = models.ForeignKey(Town, on_delete=models.CASCADE, related_name="sections")
+    heading = models.CharField(max_length=80, blank=True)
+    body = models.TextField()
+    sort_order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True, help_text="Untick to hide without deleting.")
+
+    class Meta:
+        ordering = ["sort_order", "id"]
+
+    def __str__(self):
+        return f"{self.town.name}: {self.heading or self.body[:30]}"
+
+
+class TownImage(models.Model):
+    """A picture for a town's page.
+
+    Several may exist per town with only one active, so an admin can swap the
+    view — a peaceful market today, smouldering ruins after a raid — without
+    losing the original. Files live under MEDIA_ROOT/towns/, which keeps them
+    portable alongside a world pack.
+    """
+    town = models.ForeignKey(Town, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(upload_to="towns/")
+    caption = models.CharField(max_length=120, blank=True)
+    is_active = models.BooleanField(
+        default=True, help_text="Only the first active image is shown.")
+    sort_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["sort_order", "id"]
+
+    def __str__(self):
+        return f"{self.town.name} image {self.pk}"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -259,11 +336,26 @@ class Character(models.Model):
         Drop, on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
     )
 
+    # Gold left with the bank — safe from the death penalty.
+    bank_gold = models.PositiveBigIntegerField(default=0)
+
     # Live-presence tracking for the who's-online list.
     last_active = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ["char_name"]
+
+    @property
+    def equipped_slots(self):
+        """(label, slot key, equipped thing) for every slot — drives the bag UI."""
+        return [
+            ("Weapon", "weapon", self.weapon),
+            ("Armor", "armor", self.armor),
+            ("Shield", "shield", self.shield),
+            ("Slot 1", "accessory1", self.accessory1),
+            ("Slot 2", "accessory2", self.accessory2),
+            ("Slot 3", "accessory3", self.accessory3),
+        ]
 
     def __str__(self):
         return f"{self.char_name} (L{self.level} {self.get_char_class_display()})"
@@ -335,6 +427,24 @@ class GameControl(models.Model):
     difficulty_medium_mod = models.FloatField(default=1.2)
     difficulty_hard_mod = models.FloatField(default=1.5)
 
+    # Tuning knobs (editable in the admin — no redeploy needed).
+    drop_rate = models.PositiveIntegerField(
+        default=30,
+        help_text="Loot drop chance after a victory: 1 in N. Lower = more drops (1 = every kill).",
+    )
+    vendor_mode = models.IntegerField(
+        choices=VendorMode.choices, default=VendorMode.BY_STOCK,
+        help_text="How each town decides which shop counters to show.",
+    )
+    bank_slots = models.PositiveIntegerField(
+        default=20,
+        help_text="How many items a character may store in the bank. 0 means unlimited.",
+    )
+    encounter_rate = models.PositiveIntegerField(
+        default=5,
+        help_text="Random encounter chance per tile travelled: 1 in N. Lower = more fights.",
+    )
+
     class Meta:
         verbose_name = "game control"
         verbose_name_plural = "game control"
@@ -360,3 +470,152 @@ class VisitedTile(models.Model):
 
     def __str__(self):
         return f"{self.character.char_name} @({self.latitude},{self.longitude})"
+
+
+class ItemLocation(models.IntegerChoices):
+    BAG = 1, "Bag"
+    BANK = 2, "Bank vault"
+
+
+class InventoryItem(models.Model):
+    """One unequipped thing in a character's bag.
+
+    The game has two item families — shop gear (Item: weapon/armor/shield) and
+    accessory loot (Drop) — so a row points at exactly one of them. Equipping
+    removes the row and sets the character's slot; unequipping puts a row back.
+    """
+    character = models.ForeignKey(Character, on_delete=models.CASCADE, related_name="inventory")
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, blank=True, related_name="+")
+    drop = models.ForeignKey(Drop, on_delete=models.CASCADE, null=True, blank=True, related_name="+")
+    location = models.IntegerField(choices=ItemLocation.choices, default=ItemLocation.BAG)
+    acquired_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["acquired_at"]
+        constraints = [
+            models.CheckConstraint(
+                condition=(
+                    models.Q(item__isnull=False, drop__isnull=True)
+                    | models.Q(item__isnull=True, drop__isnull=False)
+                ),
+                name="inventory_item_xor_drop",
+            )
+        ]
+
+    @property
+    def thing(self):
+        """The underlying Item or Drop."""
+        return self.item or self.drop
+
+    @property
+    def name(self):
+        return self.thing.name if self.thing else "—"
+
+    @property
+    def is_accessory(self):
+        return self.drop_id is not None
+
+    def __str__(self):
+        return f"{self.character.char_name}: {self.name}"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Quests
+# ─────────────────────────────────────────────────────────────────────────────
+class QuestObjective(models.IntegerChoices):
+    """What finishing a quest actually requires. New kinds go here in code;
+    everything else about a quest is admin-editable data."""
+    SLAY = 1, "Slay monsters"
+    REACH_LEVEL = 2, "Reach a level"
+    VISIT_TOWN = 3, "Visit a town"
+
+
+class QuestState(models.IntegerChoices):
+    ACTIVE = 1, "In progress"
+    READY = 2, "Ready to hand in"
+    DONE = 3, "Completed"
+
+
+class Quest(models.Model):
+    """A goal offered on a town's quest board. Create, edit and retire these
+    entirely from the admin."""
+    name = models.CharField(max_length=80)
+    summary = models.TextField(blank=True, help_text="Flavour text shown on the board.")
+    objective = models.IntegerField(choices=QuestObjective.choices, default=QuestObjective.SLAY)
+
+    # Objective parameters — only the ones relevant to the chosen objective matter.
+    target_monster = models.ForeignKey(
+        Monster, on_delete=models.SET_NULL, null=True, blank=True, related_name="quests",
+        help_text="Slay quests: which monster. Leave empty to count any monster.",
+    )
+    target_town = models.ForeignKey(
+        Town, on_delete=models.SET_NULL, null=True, blank=True, related_name="quest_targets",
+        help_text="Visit quests: which town to reach.",
+    )
+    target_level = models.PositiveIntegerField(
+        default=0, help_text="Reach-level quests: the level required.")
+    required_count = models.PositiveIntegerField(
+        default=1, help_text="Slay quests: how many kills are needed.")
+
+    # Where it's offered and who may take it.
+    giver_town = models.ForeignKey(
+        Town, on_delete=models.CASCADE, null=True, blank=True, related_name="quests",
+        help_text="Which town's board offers it. Leave empty to offer it everywhere.",
+    )
+    min_level = models.PositiveIntegerField(default=1)
+
+    # Rewards.
+    reward_gold = models.PositiveIntegerField(default=0)
+    reward_exp = models.PositiveIntegerField(default=0)
+    reward_item = models.ForeignKey(
+        Item, on_delete=models.SET_NULL, null=True, blank=True, related_name="quest_rewards")
+
+    repeatable = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True, help_text="Untick to retire without deleting.")
+    sort_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["sort_order", "min_level", "name"]
+
+    @property
+    def goal_total(self):
+        """How many 'units' completion takes, for progress display."""
+        if self.objective == QuestObjective.SLAY:
+            return max(1, self.required_count)
+        return 1
+
+    def describe(self):
+        if self.objective == QuestObjective.SLAY:
+            who = self.target_monster.name if self.target_monster_id else "monsters"
+            return f"Slay {self.required_count} {who}"
+        if self.objective == QuestObjective.REACH_LEVEL:
+            return f"Reach level {self.target_level}"
+        if self.objective == QuestObjective.VISIT_TOWN:
+            where = self.target_town.name if self.target_town_id else "a distant town"
+            return f"Travel to {where}"
+        return self.get_objective_display()
+
+    def __str__(self):
+        return self.name
+
+
+class CharacterQuest(models.Model):
+    """One character's run at one quest."""
+    character = models.ForeignKey(Character, on_delete=models.CASCADE, related_name="quests")
+    quest = models.ForeignKey(Quest, on_delete=models.CASCADE, related_name="attempts")
+    state = models.IntegerField(choices=QuestState.choices, default=QuestState.ACTIVE)
+    progress = models.PositiveIntegerField(default=0)
+    accepted_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["-accepted_at"]
+        indexes = [models.Index(fields=["character", "state"])]
+
+    @property
+    def percent(self):
+        total = self.quest.goal_total
+        return int(min(100, self.progress * 100 / total)) if total else 0
+
+    def __str__(self):
+        return f"{self.character.char_name}: {self.quest.name}"

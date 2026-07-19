@@ -27,8 +27,36 @@
     <span class="key town"></span> town
     <span class="key you"></span> you
   </p>
-  <p style="margin-top:.75rem">
-    <a href="{% url 'home' %}" hx-get="{% url 'home' %}" hx-target="#game-panel"
-       hx-swap="innerHTML" hx-push-url="true" hx-indicator="#game-panel">← Back to your journey</a>
-  </p>
+</div>
+
+<div class="panel">
+  <h2>Journeys</h2>
+  <p class="muted">Travel Points: <strong>{{ character.current_tp }}/{{ character.max_tp }}</strong>
+     <span class="muted">· inns restore them · maps are sold by cartographers</span></p>
+  {% if not current_town %}
+    <p class="muted">Journeys begin in a town — walk to one to set out.</p>
+  {% elif travel_towns %}
+    <div class="travel-list">
+      {% for t in travel_towns %}
+      <form method="post" action="{% url 'travel' t.id %}" class="travel-row"
+            hx-post="{% url 'travel' t.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+            hx-indicator="#game-panel" hx-disabled-elt="find button">
+        {% csrf_token %}
+        <div class="travel-info">
+          <strong>{{ t.name }}</strong>
+          <span class="muted">{{ t.latitude }}, {{ t.longitude }} · inn {{ t.inn_price }}g</span>
+        </div>
+        <div class="travel-go">
+          <span class="muted">{{ t.travel_points }} TP</span>
+          <button class="btn" type="submit" {% if not t.affordable %}disabled{% endif %}>Travel</button>
+        </div>
+      </form>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="muted">You know of no other towns yet. Explore to find them, or buy charts
+       from a cartographer.</p>
+  {% endif %}
+
+  {% include "game/_backlinks.html" %}
 </div>

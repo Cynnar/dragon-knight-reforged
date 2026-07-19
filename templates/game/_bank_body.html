@@ -1,0 +1,73 @@
+<div class="panel">
+  <h1>{{ town.name }} — Bank</h1>
+  <p class="muted">Gold deposited here is safe if you fall in battle.</p>
+  <div class="stat-grid">
+    <div class="stat"><span class="k">On hand</span><span class="v">{{ character.gold }}</span></div>
+    <div class="stat"><span class="k">On deposit</span><span class="v">{{ character.bank_gold }}</span></div>
+    <div class="stat"><span class="k">Vault</span>
+      <span class="v">{{ slots_used }}{% if slot_limit %}/{{ slot_limit }}{% else %} (no limit){% endif %}</span></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Gold</h2>
+  <div class="bank-forms">
+    <form method="post" action="{% url 'bank_gold' 'deposit' %}"
+          hx-post="{% url 'bank_gold' 'deposit' %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+      <input type="number" name="amount" min="1" max="{{ character.gold }}" placeholder="Amount">
+      <button class="btn" type="submit">Deposit</button>
+    </form>
+    <form method="post" action="{% url 'bank_gold' 'withdraw' %}"
+          hx-post="{% url 'bank_gold' 'withdraw' %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+      <input type="number" name="amount" min="1" max="{{ character.bank_gold }}" placeholder="Amount">
+      <button class="btn btn-secondary" type="submit">Withdraw</button>
+    </form>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Vault</h2>
+  {% if vault %}
+  <div class="bag-list">
+    {% for e in vault %}
+    <div class="bag-row">
+      <div class="bag-info"><strong>{{ e.name }}</strong>
+        <span class="muted">{% if e.is_accessory %}accessory{% else %}{{ e.item.get_slot_display }}{% endif %}</span>
+      </div>
+      <form method="post" action="{% url 'bank_item' 'retrieve' e.id %}"
+            hx-post="{% url 'bank_item' 'retrieve' e.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+            hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+        <button class="btn btn-secondary" type="submit">Take</button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">The vault is empty.</p>
+  {% endif %}
+</div>
+
+<div class="panel">
+  <h2>Carried</h2>
+  {% if bag %}
+  <div class="bag-list">
+    {% for e in bag %}
+    <div class="bag-row">
+      <div class="bag-info"><strong>{{ e.name }}</strong>
+        <span class="muted">{% if e.is_accessory %}accessory{% else %}{{ e.item.get_slot_display }}{% endif %}</span>
+      </div>
+      <form method="post" action="{% url 'bank_item' 'store' e.id %}"
+            hx-post="{% url 'bank_item' 'store' e.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+            hx-indicator="#game-panel" hx-disabled-elt="find button">{% csrf_token %}
+        <button class="btn" type="submit" {% if slots_free == 0 %}disabled{% endif %}>Store</button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">You're carrying nothing loose.</p>
+  {% endif %}
+  {% include "game/_backlinks.html" %}
+</div>

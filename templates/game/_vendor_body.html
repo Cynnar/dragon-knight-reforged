@@ -1,0 +1,53 @@
+<div class="panel">
+  <h1>{{ vendor.name }}</h1>
+  <p class="muted">{{ vendor.blurb }}</p>
+  <p class="muted">{{ town.name }} · your gold: <strong>{{ character.gold }}</strong></p>
+</div>
+
+<div class="panel">
+  {% if items %}
+  <div class="shop-list">
+    {% for item in items %}
+    <form method="post" action="{% url 'buy_item' item.id %}" class="shop-row"
+          hx-post="{% url 'buy_item' item.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">
+      {% csrf_token %}
+      <input type="hidden" name="vendor" value="{{ vendor.slug }}">
+      <div class="shop-info">
+        <strong>{{ item.name }}</strong>
+        <span class="muted">{{ item.get_slot_display }} · power {{ item.power }}{% if item.special %} · enchanted{% endif %}</span>
+      </div>
+      <div class="shop-buy">
+        <span class="muted">{{ item.buy_cost }}g</span>
+        <button class="btn" type="submit" {% if character.gold < item.buy_cost %}disabled{% endif %}>Buy</button>
+      </div>
+    </form>
+    {% endfor %}
+  </div>
+
+  {% elif maps %}
+  <div class="shop-list">
+    {% for t in maps %}
+    <form method="post" action="{% url 'buy_map' t.id %}" class="shop-row"
+          hx-post="{% url 'buy_map' t.id %}" hx-target="#game-panel" hx-swap="innerHTML"
+          hx-indicator="#game-panel" hx-disabled-elt="find button">
+      {% csrf_token %}
+      <input type="hidden" name="vendor" value="{{ vendor.slug }}">
+      <div class="shop-info">
+        <strong>Map to {{ t.name }}</strong>
+        <span class="muted">unlocks travel · {{ t.travel_points }} TP per trip</span>
+      </div>
+      <div class="shop-buy">
+        <span class="muted">{{ t.map_price }}g</span>
+        <button class="btn" type="submit" {% if not t.affordable %}disabled{% endif %}>Buy</button>
+      </div>
+    </form>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <p class="muted">Nothing for sale here right now.</p>
+  {% endif %}
+
+  {% include "game/_backlinks.html" %}
+</div>

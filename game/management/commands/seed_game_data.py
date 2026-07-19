@@ -76,6 +76,118 @@ class Command(BaseCommand):
             town.shop_items.set(models.Item.objects.filter(id__in=row.get("shop_item_ids", [])))
         self.stdout.write(f"towns: {models.Town.objects.count()}")
 
+        # Default merchants. These are ordinary rows — rename, re-blurb or
+        # replace them freely for a different world.
+        for order, (slug, name, kind, blurb) in enumerate([
+            ("weapons", "Weaponsmith", 1, "Blades, clubs and other means of persuasion."),
+            ("armor", "Armorer", 2, "Plate, mail and shields to keep you breathing."),
+            ("magic", "Enchanter", 3, "Curious goods humming with power."),
+            ("maps", "Cartographer", 4, "Charts to distant towns."),
+        ], start=1):
+            models.Vendor.objects.update_or_create(
+                slug=slug,
+                defaults=dict(name=name, kind=kind, blurb=blurb, sort_order=order),
+            )
+        self.stdout.write(f"vendors: {models.Vendor.objects.count()}")
+
+        # Seed the per-town assignment to mirror what each town stocks, so
+        # switching the admin toggle to "Assigned" starts from a sane default.
+        from game import vendors as vendor_rules
+        for town in models.Town.objects.all():
+            matching = [
+                v for v in models.Vendor.objects.all()
+                if (vendor_rules.maps_for_sale_count(town) if v.kind == 4
+                    else vendor_rules.items_for_kind(v.kind, town).count())
+            ]
+            town.vendors.set(matching)
+
+        # ── town descriptions ───────────────────────────────────────────
+        # Flavour only; edit or replace freely in the admin.
+        town_blurbs = {
+            "Midworld": [("The Crossroads",
+                "Every road in the realm passes through Midworld sooner or later. "
+                "It is neither the largest town nor the richest, but it sits at the "
+                "centre of the map and every adventurer starts here.")],
+            "Roma": [("The Terraced Town",
+                "Built up the side of a green hill, Roma looks down on the eastern "
+                "plains. Traders come for the markets and stay for the wine.")],
+            "Bris": [("The Salt Gate",
+                "Wind-scoured and stubborn, Bris guards the southern reaches. "
+                "Its smiths are said to fold sea-salt into their steel.")],
+            "Kalle": [("The Quiet North",
+                "Kalle keeps to itself among the northern pines. Strangers are served "
+                "politely and watched carefully.")],
+            "Narcissa": [("The Mirror City",
+                "Narcissa's towers are faced with polished stone, and the city is "
+                "proud of its reflection. Magic is common here, and expensive.")],
+            "Hambry": [("The Far Fields",
+                "A long way from anywhere, Hambry survives on hard work and harder "
+                "weather. The monsters beyond its walls are no longer small.")],
+            "Gilead": [("The Old Seat",
+                "Once the heart of the realm, Gilead still carries itself like a "
+                "capital. Only the strongest travellers arrive here on foot.")],
+            "Endworld": [("The Last Town",
+                "At the very corner of the known map, Endworld exists because someone "
+                "refused to turn back. Beyond it, the maps go blank.")],
+        }
+        made = 0
+        for town_name, blocks in town_blurbs.items():
+            town = models.Town.objects.filter(name=town_name).first()
+            if not town:
+                continue
+            for order, (heading, body) in enumerate(blocks, start=1):
+                models.TownSection.objects.update_or_create(
+                    town=town, heading=heading,
+                    defaults=dict(body=body, sort_order=order, is_active=True))
+                made += 1
+        self.stdout.write(f"town sections: {made}")
+
+        # ── starter quests ──────────────────────────────────────────────
+        # Looked up by name so a replaced world degrades gracefully rather
+        # than failing: a missing monster just means "any monster".
+        def monster(name):
+            return models.Monster.objects.filter(name=name).first()
+
+        def town(name):
+            return models.Town.objects.filter(name=name).first()
+
+        starter_quests = [
+            dict(name="A Slime Problem",
+                 summary="The fields outside the gates are crawling with them. Thin them out.",
+                 objective=1, target_monster=monster("Blue Slime"), required_count=3,
+                 giver_town=town("Midworld"), min_level=1,
+                 reward_exp=15, reward_gold=40, sort_order=1),
+            dict(name="Blooded",
+                 summary="Every adventurer has a first ten. Go and get yours.",
+                 objective=1, target_monster=None, required_count=10,
+                 giver_town=None, min_level=1,
+                 reward_exp=40, reward_gold=75, sort_order=2),
+            dict(name="The Road East",
+                 summary="Roma lies east of the crossroads. See it with your own eyes.",
+                 objective=3, target_town=town("Roma"),
+                 giver_town=town("Midworld"), min_level=1,
+                 reward_exp=30, reward_gold=60, sort_order=3),
+            dict(name="Prove Yourself",
+                 summary="Come back when you've grown into your boots.",
+                 objective=2, target_level=5,
+                 giver_town=None, min_level=1,
+                 reward_exp=60, reward_gold=120, sort_order=4),
+            dict(name="Standing Bounty",
+                 summary="The board always has work. Bring proof of five kills.",
+                 objective=1, target_monster=None, required_count=5,
+                 giver_town=None, min_level=2, repeatable=True,
+                 reward_exp=25, reward_gold=50, sort_order=5),
+            dict(name="Journeyman",
+                 summary="A seasoned hand is worth more than a sharp sword.",
+                 objective=2, target_level=10,
+                 giver_town=None, min_level=5,
+                 reward_exp=150, reward_gold=400, sort_order=6),
+        ]
+        for q in starter_quests:
+            name = q.pop("name")
+            models.Quest.objects.update_or_create(name=name, defaults=q)
+        self.stdout.write(f"quests: {models.Quest.objects.count()}")
+
         ctrl = load("control.json")
         models.GameControl.objects.update_or_create(id=1, defaults=dict(
             game_name=ctrl.get("gamename", "Dragon Knight"),

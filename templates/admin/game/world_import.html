@@ -1,0 +1,32 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Import world pack</h1>
+<p>Upload a JSON pack produced by <strong>Export world</strong> (or by
+   <code>manage.py export_world</code>). Packs contain world content only —
+   monsters, items, spells, the level curve, drops, towns and vendors.
+   Player accounts and characters are never touched.</p>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <fieldset class="module aligned">
+    <div class="form-row">
+      <label for="pack">Pack file:</label>
+      <input type="file" name="pack" id="pack" accept=".json,application/json" required>
+    </div>
+    <div class="form-row">
+      <label for="replace">Replace:</label>
+      <input type="checkbox" name="replace" id="replace">
+      <p class="help">
+        Tick to <strong>delete all current world content first</strong>, so the pack becomes
+        the whole world. Leave unticked to merge the pack into what's already there
+        (matching by id). Replacing will clear equipped or carried items that don't exist
+        in the new pack.
+      </p>
+    </div>
+  </fieldset>
+  <div class="submit-row">
+    <input type="submit" value="Import world" class="default">
+    <a href="{% url 'admin:game_gamecontrol_changelist' %}" class="closelink">Cancel</a>
+  </div>
+</form>
+{% endblock %}
